@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:45:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 20:31:24 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/15 21:18:03 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -48,6 +48,7 @@ char	*ft_strjoin_free_1(
 
 	total_len = ft_strlen(s1) + ft_strlen(s2);
 	joined_str = malloc(sizeof(*joined_str) * (total_len + 1));
+	ft_bzero(joined_str, total_len + 1);
 	if (joined_str == NULL)
 	{
 		free((char *)s1);

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:18:29 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 20:54:47 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/15 21:10:09 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -28,13 +28,13 @@ static	size_t	_size_after_trim(
 	int	end;
 
 	idx = 0;
-	while (ft_strchr(set, s[idx]))
+	while (s[idx] != '\0' && ft_strchr(set, s[idx]))
 		++idx;
 	start = idx;
 	while (s[idx] != '\0')
 		++idx;
 	--idx;
-	while (ft_strchr(set, s[idx]))
+	while (idx >= 0 && s[idx] != '\0' && ft_strchr(set, s[idx]))
 		--idx;
 	end = idx;
 	return ((size_t)(end - start + 1));
@@ -51,14 +51,16 @@ char	*ft_strtrim(
 {
 	size_t	trimmed_size;
 	char	*trimmed_str;
+	int		idx;
 
 	trimmed_size = _size_after_trim(s, set);
 	trimmed_str = malloc(sizeof(*trimmed_str) * (trimmed_size + 1));
 	if (trimmed_str == NULL)
 		return (NULL);
-	while (ft_strchr(set, *s))
-		++s;
-	ft_strlcpy(trimmed_str, s, trimmed_size + 1);
+	idx = 0;
+	while (s[idx] != '\0' && ft_strchr(set, s[idx]))
+		++idx;
+	ft_strlcpy(trimmed_str, s + idx, trimmed_size + 1);
 	return (trimmed_str);
 }
 
@@ -73,6 +75,7 @@ char	*ft_strtrim_free_1(
 {
 	size_t	trimmed_size;
 	char	*trimmed_str;
+	int		idx;
 
 	trimmed_size = _size_after_trim(s, set);
 	trimmed_str = malloc(sizeof(*trimmed_str) * (trimmed_size + 1));
@@ -81,9 +84,10 @@ char	*ft_strtrim_free_1(
 		free((char *)s);
 		return (NULL);
 	}
-	while (ft_strchr(set, *s))
-		++s;
-	ft_strlcpy(trimmed_str, s, trimmed_size + 1);
+	idx = 0;
+	while (s[idx] != '\0' && ft_strchr(set, s[idx]))
+		++idx;
+	ft_strlcpy(trimmed_str, s + idx, trimmed_size + 1);
 	free((char *)s);
 	return (trimmed_str);
 }
@@ -99,6 +103,7 @@ char	*ft_strtrim_free_2(
 {
 	size_t	trimmed_size;
 	char	*trimmed_str;
+	int		idx;
 
 	trimmed_size = _size_after_trim(s, set);
 	trimmed_str = malloc(sizeof(*trimmed_str) * (trimmed_size + 1));
@@ -107,9 +112,10 @@ char	*ft_strtrim_free_2(
 		free((char *)set);
 		return (NULL);
 	}
-	while (ft_strchr(set, *s))
-		++s;
-	ft_strlcpy(trimmed_str, s, trimmed_size + 1);
+	idx = 0;
+	while (s[idx] != '\0' && ft_strchr(set, s[idx]))
+		++idx;
+	ft_strlcpy(trimmed_str, s + idx, trimmed_size + 1);
 	free((char *)set);
 	return (trimmed_str);
 }
@@ -125,6 +131,7 @@ char	*ft_strtrim_free_12(
 {
 	size_t	trimmed_size;
 	char	*trimmed_str;
+	int		idx;
 
 	trimmed_size = _size_after_trim(s, set);
 	trimmed_str = malloc(sizeof(*trimmed_str) * (trimmed_size + 1));
@@ -134,9 +141,10 @@ char	*ft_strtrim_free_12(
 		free((char *)set);
 		return (NULL);
 	}
-	while (ft_strchr(set, *s))
-		++s;
-	ft_strlcpy(trimmed_str, s, trimmed_size + 1);
+	idx = 0;
+	while (s[idx] != '\0' && ft_strchr(set, s[idx]))
+		++idx;
+	ft_strlcpy(trimmed_str, s + idx, trimmed_size + 1);
 	free((char *)s);
 	free((char *)set);
 	return (trimmed_str);
