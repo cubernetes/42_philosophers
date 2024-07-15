@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 22:34:08 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 00:00:15 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -18,6 +18,24 @@
 # include <stddef.h>
 
 /********************************* defines ************************************/
+# define ERR_WRONG_ARGC "FATAL: Wrong number of arguments. Expected 4 or 5."
+
+# define ERR_WRONG_ARG_NUM_PHILOS_1 "FATAL: Error in parsing the argument "
+# define ERR_WRONG_ARG_NUM_PHILOS_2 "specifying the number of philosophers."
+
+# define ERR_WRONG_ARG_TIME_TO_DIE_1 "FATAL: Error in parsing the argument "
+# define ERR_WRONG_ARG_TIME_TO_DIE_2 "specifying the time to die."
+
+# define ERR_WRONG_ARG_TIME_TO_EAT_1 "FATAL: Error in parsing the argument "
+# define ERR_WRONG_ARG_TIME_TO_EAT_2 "specifying the time to eat."
+
+# define ERR_WRONG_ARG_TIME_TO_SLEEP_1 "FATAL: Error in parsing the argument "
+# define ERR_WRONG_ARG_TIME_TO_SLEEP_2 "specifying time to sleep."
+
+# define ERR_WRONG_ARG_MIN_EAT_1 "FATAL: Error in parsing the argument "
+# define ERR_WRONG_ARG_MIN_EAT_2 "specifying the minimum number of meals requ"
+# define ERR_WRONG_ARG_MIN_EAT_3 "ired per philosopher to end the simulation."
+
 /********************************* enums **************************************/
 enum e_ansi
 {
@@ -35,6 +53,7 @@ enum e_ansi
 	INVERT		= 1 << 6,	/* combinable */
 };
 
+/* fine grained log levels may be specified */
 enum e_log_lvl
 {
 	GET_LOG_LVL	= 0,
@@ -45,9 +64,29 @@ enum e_log_lvl
 	FATAL		= 50,
 };
 
+/* Possible status flag for "a to n" conversions (e.g. atoi, atol, etc.) */
+enum e_aton_status
+{
+	STATUS_OVERFLOW			= 1 << 0,
+	STATUS_NO_TRAIL_NUL		= 1 << 1,
+	STATUS_NO_TRAIL_WHITE	= 1 << 2,
+	STATUS_EMPTY_STR		= 1 << 3,
+	STATUS_NULL_STR			= 1 << 4,
+};
+
+/*********************************** structs **********************************/
+typedef struct s_params
+{
+	int	num_philos;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	min_eat;
+}	t_params;
+
 /********************************** prototypes ********************************/
 /* init */
-void			init(int argc, char *argv[], char *envp[]);
+int				init(int argc, char *argv[], char *envp[], t_params **params);
 
 /* logging */
 enum e_log_lvl	set_log_lvl(enum e_log_lvl new_log_lvl);
@@ -89,5 +128,10 @@ unsigned int	ft_abs(int n);
 int				ft_strcmp(char const *s1, char const *s2);
 int				ft_strncmp(char const *s1, char const *s2, size_t len);
 char			*ft_itoa(int n);
+
+int				ft_isspace(int c);
+int				ft_isdigit(int c);
+
+int				ft_atoi_status(char const *nptr, int *status);
 
 #endif /* philosophers.h */

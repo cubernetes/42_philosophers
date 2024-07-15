@@ -6,7 +6,7 @@
 #    By: tosuman <timo42@proton.me>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/15 20:33:50 by tosuman           #+#    #+#              #
-#    Updated: 2024/07/15 22:30:16 by tosuman          ###   ########.fr        #
+#    Updated: 2024/07/16 00:03:18 by tosuman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # ex: set ts=4 sw=4 ft=make noet #
@@ -34,8 +34,12 @@ endif
 # sources
 SRC :=
 SRC += philo.c
-SRC += init.c
 SRC += err.c
+
+vpath %.c init
+SRC += init.c
+SRC += init_log_lvl.c
+SRC += argv_checks.c
 
 vpath %.c logger
 SRC += logger.c
@@ -44,7 +48,10 @@ SRC += log_wrappers.c
 
 vpath %.c utils
 SRC += ft_abs.c
+SRC += ft_atoi_status.c
 SRC += ft_bzero.c
+SRC += ft_isdigit.c
+SRC += ft_isspace.c
 SRC += ft_itoa.c
 SRC += ft_strchr.c
 SRC += ft_strcmp.c
@@ -89,6 +96,6 @@ fclean: clean
 re: fclean all
 
 run: re
-	valgrind --track-fds=yes ./philo
+	valgrind --track-fds=yes ./philo 1 2 3 4 5
 
 .PHONY: re fclean clean all run

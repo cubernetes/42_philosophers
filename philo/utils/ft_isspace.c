@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   log_level.c                                        :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/15 22:17:06 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 22:42:13 by tosuman          ###   ########.fr       */
+/*   Created: 2024/07/15 23:23:40 by tosuman           #+#    #+#             */
+/*   Updated: 2024/07/15 23:23:54 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
-#include "philosophers.h"
-
-/* set the log level, which must not be equal to GET_LOG_LVL */
-enum e_log_lvl	set_log_lvl(enum e_log_lvl new_log_lvl)
+int	ft_isspace(int c)
 {
-	static enum e_log_lvl	log_level;
-
-	if (new_log_lvl != GET_LOG_LVL)
-		log_level = new_log_lvl;
-	return (log_level);
-}
-
-/* return the current log level */
-enum e_log_lvl	get_log_lvl(void)
-{
-	return (set_log_lvl(GET_LOG_LVL));
+	return (c == ' '
+		|| c == '\n'
+		|| c == '\r'
+		|| c == '\t'
+		|| c == '\f'
+		|| c == '\v');
 }
