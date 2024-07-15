@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:49:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 22:34:50 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 00:23:57 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -63,6 +63,28 @@ int	logger(
 	color = _build_color(ansi);
 	attrs = _build_attrs(ansi);
 	ret = printf("\033[%s%sm%s\033[m\n", color, attrs, msg);
+	free(color);
+	free(attrs);
+	return (ret);
+}
+
+/* log a given msg to stdout without a newline,
+ * respecting the log level and color settings */
+int	logger_nonl(
+	const char *msg,
+	enum e_ansi ansi,
+	enum e_log_lvl log_lvl
+)
+{
+	int		ret;
+	char	*color;
+	char	*attrs;
+
+	if (get_log_lvl() > log_lvl)
+		return (0);
+	color = _build_color(ansi);
+	attrs = _build_attrs(ansi);
+	ret = printf("\033[%s%sm%s\033[m", color, attrs, msg);
 	free(color);
 	free(attrs);
 	return (ret);

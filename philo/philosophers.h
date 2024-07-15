@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 00:00:15 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 00:24:07 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -85,7 +85,7 @@ typedef struct s_params
 }	t_params;
 
 /********************************** prototypes ********************************/
-/* init */
+int				simulate(t_params *params);
 int				init(int argc, char *argv[], char *envp[], t_params **params);
 
 /* logging */
@@ -93,14 +93,21 @@ enum e_log_lvl	set_log_lvl(enum e_log_lvl new_log_lvl);
 enum e_log_lvl	get_log_lvl(void);
 int				logger(const char *msg, enum e_ansi ansi,
 					enum e_log_lvl log_lvl);
+int				logger_nonl(const char *msg, enum e_ansi ansi,
+					enum e_log_lvl log_lvl);
 int				log_fatal(char const *msg);
 int				log_error(char const *msg);
 int				log_warn(char const *msg);
 int				log_info(char const *msg);
 int				log_debug(char const *msg);
+int				log_fatal_nonl(char const *msg);
+int				log_error_nonl(char const *msg);
+int				log_warn_nonl(char const *msg);
+int				log_info_nonl(char const *msg);
+int				log_debug_nonl(char const *msg);
 
 /* misc */
-void			print_usage(void);
+void			print_usage(char *argv[]);
 
 /* libft-utils */
 size_t			ft_strlen(char const *s);

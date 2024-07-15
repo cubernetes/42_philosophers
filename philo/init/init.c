@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:46:07 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 00:01:25 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 00:13:44 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -67,6 +67,8 @@ int	_init_log_lvl(char *envp[]);
 int	init(int argc, char *argv[], char *envp[], t_params **params)
 {
 	*params = malloc(sizeof(**params));
+	if (*params == NULL)
+		return (EXIT_FAILURE);
 	if (_init_log_lvl(envp))
 		return (EXIT_FAILURE);
 	if (_parse_arguments(argc, argv, *params))
