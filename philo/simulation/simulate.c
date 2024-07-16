@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 06:08:06 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 06:23:17 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -19,7 +19,10 @@
 
 #include <unistd.h>
 
-static int	_wait_for_philos(pthread_t *philo_threads, t_params *params)
+static int	_wait_for_philos(
+	pthread_t *philo_threads,
+	t_params *params
+)
 {
 	int	idx;
 	int	err;
@@ -34,7 +37,10 @@ static int	_wait_for_philos(pthread_t *philo_threads, t_params *params)
 	return (err);
 }
 
-static void	_cleanup_philos(t_philo **philos, t_params *params)
+static void	_cleanup_philos(
+	t_philo **philos,
+	t_params *params
+)
 {
 	int	idx;
 

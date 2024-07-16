@@ -6,15 +6,17 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:06:15 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 06:08:12 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 06:27:12 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/* ex: set ts=4 sw=4 ft=c et */
 
 #include "philosophers.h"
 
 #include <stdlib.h>
 #include <pthread.h>
 
+/* create a new fork on the heap, initializing its corresponding mutex */
 static t_fork	*_new_fork(unsigned int id)
 {
 	t_fork	*fork;
@@ -25,6 +27,10 @@ static t_fork	*_new_fork(unsigned int id)
 	return (fork);
 }
 
+/* initialize a single new philosopher using a given right fork.
+ * the left fork is either created (on the heap) or set to the first
+ * fork if we are at the last philosopher.
+ */
 static t_philo	*_init_philo(
 	unsigned int id,
 	t_params *params,
@@ -48,7 +54,14 @@ static t_philo	*_init_philo(
 /* routine.c */
 void	*routine(void *data);
 
-t_philo	**_spawn_philos(pthread_t *philo_threads, t_params *params)
+/* create and return a heap-allocated array of philosopher structs,
+ * each containing (e.g.) 2 pointers, one for the left fork, one for the
+ * right fork, where adjacent philosophers share the same pointer to a fork.
+ */
+t_philo	**_spawn_philos(
+	pthread_t *philo_threads,
+	t_params *params
+)
 {
 	unsigned int	idx;
 	t_philo			*philo;
@@ -71,3 +84,8 @@ t_philo	**_spawn_philos(pthread_t *philo_threads, t_params *params)
 	}
 	return (philos);
 }
+/* This algorithm can probably we written more elegantly, for example
+ * recursively, like [@nlaerema]
+ * (https://github.com/kodokaii/Philosophers/blob/master/philo/start.c)
+ * did.
+ */

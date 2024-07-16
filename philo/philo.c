@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 03:59:13 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 06:23:28 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,7 +15,11 @@
 
 #include <stdlib.h>
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(
+	int argc,
+	char *argv[],
+	char *envp[]
+)
 {
 	t_params	params;
 
