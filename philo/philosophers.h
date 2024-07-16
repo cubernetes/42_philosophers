@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 05:43:21 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 06:03:04 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -23,19 +23,20 @@
 # define ERR_WRONG_ARGC "FATAL: Wrong number of arguments. Expected 4 or 5."
 
 # define ERR_WRONG_ARG_NUM_PHILOS "FATAL: Error in parsing the argument \
-specifying the number of philosophers."
+specifying the number of philosophers (argument 1, 'NOP')."
 
 # define ERR_WRONG_ARG_TIME_TO_DIE "FATAL: Error in parsing the argument \
-specifying the time to die."
+specifying the time to die (argument 2, 'TOD')."
 
 # define ERR_WRONG_ARG_TIME_TO_EAT "FATAL: Error in parsing the argument \
-specifying the time to eat."
+specifying the time to eat (argument 3, 'TOE')."
 
 # define ERR_WRONG_ARG_TIME_TO_SLEEP "FATAL: Error in parsing the argument \
-specifying time to sleep."
+specifying time to sleep (argument 4, 'TOS')."
 
-# define ERR_WRONG_ARG_MIN_EAT "FATAL: Error in parsing the argument specifying\
- the minimum number of meals required per philosopher to end the simulation."
+# define ERR_WRONG_ARG_MIN_EAT "FATAL: Error in parsing the argument \
+specifying the minimum number of meals required per philosopher \
+to end the simulation (argument 5, 'ME')."
 
 /********************************* enums **************************************/
 enum e_ansi

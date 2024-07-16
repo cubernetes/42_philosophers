@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 05:43:00 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 05:59:24 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -29,13 +29,21 @@ t_fork	*_new_fork(unsigned int id)
 	return (fork);
 }
 
-t_philo	*_init_philo(unsigned int id, t_fork *right_fork)
+t_philo	*_init_philo(
+	unsigned int id,
+	t_params *params,
+	t_fork *right_fork,
+	t_fork *first_fork
+)
 {
 	t_philo	*philo;
 
 	philo = malloc(sizeof(*philo));
 	philo->right_fork = right_fork;
-	philo->left_fork = _new_fork(id);
+	if (id == (unsigned int)params->num_philos - 1)
+		philo->left_fork = first_fork;
+	else
+		philo->left_fork = _new_fork(id);
 	philo->id = id;
 	/* philo->last_meal = get_mtime(); */
 	return (philo);
@@ -56,10 +64,12 @@ t_philo	**_spawn_philos(pthread_t *philo_threads, t_params *params)
 	unsigned int	idx;
 	t_philo			*philo;
 	t_philo			**philos;
+	t_fork			*first_fork;
 
 	idx = 0;
 	philos = malloc(sizeof(*philos) * (size_t)params->num_philos);
-	philo = _init_philo(0, _new_fork((unsigned int)params->num_philos - 1));
+	first_fork = _new_fork((unsigned int)params->num_philos - 1);
+	philo = _init_philo(0, params, first_fork, first_fork);
 	philos[idx] = philo;
 	while (1)
 	{
@@ -67,7 +77,7 @@ t_philo	**_spawn_philos(pthread_t *philo_threads, t_params *params)
 		++idx;
 		if (idx >= (unsigned int)params->num_philos)
 			break ;
-		philo = _init_philo(idx, philo->left_fork);
+		philo = _init_philo(idx, params, philo->left_fork, first_fork);
 		philos[idx] = philo;
 	}
 	return (philos);
@@ -99,6 +109,7 @@ void	_cleanup_philos(t_philo **philos, t_params *params)
 		free(philos[idx]);
 		++idx;
 	}
+	free(philos);
 }
 
 int	simulate(t_params *params)
