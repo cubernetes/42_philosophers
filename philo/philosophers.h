@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 00:24:07 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 05:43:21 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,25 +16,26 @@
 
 /******************************** includes ************************************/
 # include <stddef.h>
+# include <sys/time.h>
+# include <pthread.h>
 
 /********************************* defines ************************************/
 # define ERR_WRONG_ARGC "FATAL: Wrong number of arguments. Expected 4 or 5."
 
-# define ERR_WRONG_ARG_NUM_PHILOS_1 "FATAL: Error in parsing the argument "
-# define ERR_WRONG_ARG_NUM_PHILOS_2 "specifying the number of philosophers."
+# define ERR_WRONG_ARG_NUM_PHILOS "FATAL: Error in parsing the argument \
+specifying the number of philosophers."
 
-# define ERR_WRONG_ARG_TIME_TO_DIE_1 "FATAL: Error in parsing the argument "
-# define ERR_WRONG_ARG_TIME_TO_DIE_2 "specifying the time to die."
+# define ERR_WRONG_ARG_TIME_TO_DIE "FATAL: Error in parsing the argument \
+specifying the time to die."
 
-# define ERR_WRONG_ARG_TIME_TO_EAT_1 "FATAL: Error in parsing the argument "
-# define ERR_WRONG_ARG_TIME_TO_EAT_2 "specifying the time to eat."
+# define ERR_WRONG_ARG_TIME_TO_EAT "FATAL: Error in parsing the argument \
+specifying the time to eat."
 
-# define ERR_WRONG_ARG_TIME_TO_SLEEP_1 "FATAL: Error in parsing the argument "
-# define ERR_WRONG_ARG_TIME_TO_SLEEP_2 "specifying time to sleep."
+# define ERR_WRONG_ARG_TIME_TO_SLEEP "FATAL: Error in parsing the argument \
+specifying time to sleep."
 
-# define ERR_WRONG_ARG_MIN_EAT_1 "FATAL: Error in parsing the argument "
-# define ERR_WRONG_ARG_MIN_EAT_2 "specifying the minimum number of meals requ"
-# define ERR_WRONG_ARG_MIN_EAT_3 "ired per philosopher to end the simulation."
+# define ERR_WRONG_ARG_MIN_EAT "FATAL: Error in parsing the argument specifying\
+ the minimum number of meals required per philosopher to end the simulation."
 
 /********************************* enums **************************************/
 enum e_ansi
@@ -84,9 +85,28 @@ typedef struct s_params
 	int	min_eat;
 }	t_params;
 
+typedef struct s_fork
+{
+	pthread_mutex_t	mutex;
+	unsigned int	id;
+}	t_fork;
+
+typedef struct s_philo
+{
+	unsigned int	id;
+	t_fork			*left_fork;
+	t_fork			*right_fork;
+	time_t			last_meal;
+	int				keep_going;
+}	t_philo;
+
 /********************************** prototypes ********************************/
+int				init(int argc, char *argv[], char *envp[], t_params *params);
 int				simulate(t_params *params);
-int				init(int argc, char *argv[], char *envp[], t_params **params);
+
+/* time */
+void			ft_msleep(int ms);
+time_t			get_mtime(void);
 
 /* logging */
 enum e_log_lvl	set_log_lvl(enum e_log_lvl new_log_lvl);

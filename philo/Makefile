@@ -6,7 +6,7 @@
 #    By: tosuman <timo42@proton.me>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/15 20:33:50 by tosuman           #+#    #+#              #
-#    Updated: 2024/07/16 00:22:57 by tosuman          ###   ########.fr        #
+#    Updated: 2024/07/16 05:38:45 by tosuman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # ex: set ts=4 sw=4 ft=make noet #
@@ -36,11 +36,12 @@ SRC :=
 SRC += philo.c
 SRC += simulate.c
 SRC += usage.c
+SRC += ft_time.c
 
 vpath %.c init
 SRC += init.c
 SRC += init_log_lvl.c
-SRC += argv_checks.c
+SRC += argv_parsing.c
 
 vpath %.c logger
 SRC += logger.c
