@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 23:05:54 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 06:01:10 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/16 19:22:57 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -22,7 +22,7 @@ int	_num_philos_check(char const *arg, t_params *params)
 
 	params->num_philos = ft_atoi_status(arg, &status);
 	if (status & (STATUS_OVERFLOW | STATUS_EMPTY_STR | STATUS_NO_TRAIL_WHITE)
-		|| params->num_philos <= 0)
+		|| params->num_philos <= 0 || params->num_philos > 200)
 	{
 		log_fatal(ERR_WRONG_ARG_NUM_PHILOS);
 		return (EXIT_FAILURE);
