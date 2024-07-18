@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:49:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:32:44 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 18:20:46 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -35,17 +35,24 @@ static char	*_build_color(enum e_ansi ansi)
  */
 static char	*_build_attrs(enum e_ansi ansi)
 {
-	char	*attrs;
+	char		*attrs;
+	char const	*ansi_code;
 
 	attrs = ft_strdup("");
+	if (attrs == NULL)
+		return (NULL);
+	ansi_code = "";
 	if (ansi & BOLD)
-		attrs = ft_strjoin_free_1(attrs, ";1");
+		ansi_code = ";1";
 	if (ansi & ITALIC)
-		attrs = ft_strjoin_free_1(attrs, ";3");
+		ansi_code = ";3";
 	if (ansi & UNDERLINE)
-		attrs = ft_strjoin_free_1(attrs, ";4");
+		ansi_code = ";4";
 	if (ansi & INVERT)
-		attrs = ft_strjoin_free_1(attrs, ";7");
+		ansi_code = ";7";
+	attrs = ft_strjoin_free_1(attrs, ansi_code);
+	if (attrs == NULL)
+		return (NULL);
 	return (attrs);
 }
 
@@ -66,7 +73,14 @@ int	logger(
 	if (ansi == NO_CLR)
 		return (printf("%s\n", msg));
 	color = _build_color(ansi);
+	if (color == NULL)
+		return (-1);
 	attrs = _build_attrs(ansi);
+	if (attrs == NULL)
+	{
+		free(color);
+		return (-1);
+	}
 	ret = printf("\033[%s%sm%s\033[m\n", color, attrs, msg);
 	free(color);
 	free(attrs);
@@ -91,7 +105,14 @@ int	logger_nonl(
 	if (ansi == NO_CLR)
 		return (printf("%s", msg));
 	color = _build_color(ansi);
+	if (color == NULL)
+		return (-1);
 	attrs = _build_attrs(ansi);
+	if (attrs == NULL)
+	{
+		free(color);
+		return (-1);
+	}
 	ret = printf("\033[%s%sm%s\033[m", color, attrs, msg);
 	free(color);
 	free(attrs);

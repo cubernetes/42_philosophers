@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:30:47 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:40:23 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:03:27 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -36,12 +36,12 @@ char	*ft_itoa(int n)
 	str += (int)n_len + is_neg;
 	n_cpy = ft_abs(n);
 	*str-- = 0;
-	while (n_len--)
+	while (n_len-- > 0)
 	{
 		*str-- = (char)(n_cpy % 10 + '0');
 		n_cpy /= 10;
 	}
-	if (is_neg)
+	if (is_neg != 0)
 		*str-- = '-';
 	return (++str);
 }

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:40:16 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:34:52 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:01:25 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -38,7 +38,7 @@ static int	_set_log_lvl_from_string(char const *s)
  */
 int	_init_log_lvl(char *envp[])
 {
-	while (*envp)
+	while (envp != NULL && *envp != NULL)
 	{
 		if (ft_strncmp(*envp, "LOGLEVEL=", 9) == 0)
 			return (_set_log_lvl_from_string(*envp + 9));
@@ -50,9 +50,12 @@ int	_init_log_lvl(char *envp[])
 
 /* Read the DEBUG environment variable and set the debug flag accordingly.
  */
-int	_init_debug(char *envp[], t_params *params)
+int	_init_debug(
+	char *envp[],
+	t_params *params
+)
 {
-	while (*envp)
+	while (envp != NULL && *envp != NULL)
 	{
 		if (ft_strncmp(*envp, "DEBUG=", 6) == 0)
 		{

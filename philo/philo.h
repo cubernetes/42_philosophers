@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:05:08 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 17:57:03 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -122,9 +122,10 @@ typedef struct s_philo
 /********************************** prototypes ********************************/
 int				init(int argc, char *argv[], char *envp[], t_params *params);
 int				simulate(t_params *params);
+void			cleanup_philos(t_philo **philos, t_params *params);
 
 /* time */
-void			ft_msleep(int ms);
+int				ft_msleep(int ms);
 time_t			get_mtime(void);
 
 /* logging */
@@ -144,10 +145,10 @@ int				log_error_nonl(char const *msg);
 int				log_warn_nonl(char const *msg);
 int				log_info_nonl(char const *msg);
 int				log_debug_nonl(char const *msg);
-void			log_philo(enum e_philo_log log, t_philo *philo);
+int				log_philo(enum e_philo_log log, t_philo *philo);
 
 /* misc */
-void			print_usage(char *argv[]);
+int				print_usage(char *argv[]);
 
 /* libft-utils */
 size_t			ft_strlen(char const *s);

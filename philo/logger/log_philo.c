@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:48:02 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:32:55 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 18:56:22 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -47,6 +47,41 @@ static char	*_get_philo_log_msg(enum e_philo_log log)
 	return ("has done something extraordinary...");
 }
 
+static int	_free_offset_id(
+	char *offset,
+	char *id,
+	int exit_status
+)
+{
+	if (offset != NULL)
+		free(offset);
+	if (id != NULL)
+		free(id);
+	return (exit_status);
+}
+
+static int	_start_log_entry(
+	t_philo *philo,
+	char *offset,
+	char *id,
+	enum e_ansi log_lvl
+)
+{
+	if (id == NULL)
+		return (EXIT_FAILURE);
+	if (pthread_mutex_lock(&philo->params->log_mtx) != 0)
+		return (EXIT_FAILURE);
+	if (logger_nonl(offset, log_lvl, INFO) < 0)
+		return (EXIT_FAILURE);
+	if (logger_nonl(" ", log_lvl, INFO) < 0)
+		return (EXIT_FAILURE);
+	if (logger_nonl(id, log_lvl, INFO) < 0)
+		return (EXIT_FAILURE);
+	if (logger_nonl(" ", log_lvl, INFO) < 0)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 /* Print a diagnostic message for a given philosopher, whether they've started
  * eating, sleeping, thinking or picking up a single fork. The printing is
  * protected via a mutex, since otherwise the message will very likely be inter-
@@ -56,25 +91,34 @@ static char	*_get_philo_log_msg(enum e_philo_log log)
  * Unless in debug mode, the output will be plain text without any ANSI-escape
  * sequences. This allows for parsing (we are not allowed to use isatty(3)).
  */
-void	log_philo(enum e_philo_log log, t_philo *philo)
+int	log_philo(
+	enum e_philo_log log,
+	t_philo *philo
+)
 {
 	char		*offset;
 	char		*id;
+	time_t		now;
 	enum e_ansi	log_lvl;
 
+	if (philo == NULL)
+		return (EXIT_FAILURE);
 	if (philo->params->debug)
 		log_lvl = _get_philo_log_clr(log) | BOLD;
 	else
 		log_lvl = NO_CLR;
-	offset = ft_itoa((int)(get_mtime() - philo->params->start_time));
+	now = get_mtime();
+	if (now == 0)
+		return (EXIT_FAILURE);
+	offset = ft_itoa((int)(now - philo->params->start_time));
+	if (offset == NULL)
+		return (EXIT_FAILURE);
 	id = ft_itoa((int)philo->id + 1);
-	pthread_mutex_lock(&philo->params->log_mtx);
-	logger_nonl(offset, log_lvl, INFO);
-	logger_nonl(" ", log_lvl, INFO);
-	logger_nonl(id, log_lvl, INFO);
-	logger_nonl(" ", log_lvl, INFO);
-	logger(_get_philo_log_msg(log), log_lvl, INFO);
-	pthread_mutex_unlock(&philo->params->log_mtx);
-	free(offset);
-	free(id);
+	if (_start_log_entry(philo, offset, id, log_lvl) == EXIT_FAILURE)
+		return (_free_offset_id(offset, id, EXIT_FAILURE));
+	if (logger(_get_philo_log_msg(log), log_lvl, INFO) < 0)
+		return (_free_offset_id(offset, id, EXIT_FAILURE));
+	if (pthread_mutex_unlock(&philo->params->log_mtx) != 0)
+		return (_free_offset_id(offset, id, EXIT_FAILURE));
+	return (_free_offset_id(offset, id, EXIT_SUCCESS));
 }

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:07:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:51:45 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 18:58:14 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,10 +15,11 @@
 
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /* fork_logic.c */
-void	_pickup_forks(t_philo *philo);
-void	_putdown_forks(t_philo *philo);
+int	_pickup_forks(t_philo *philo);
+int	_putdown_forks(t_philo *philo);
 
 /* this is the "idle work" function, where the thread just idly sits and
  * does not need any of the mutually exclusive resources, thereby allowing
@@ -27,10 +28,15 @@ void	_putdown_forks(t_philo *philo);
  * If time-to-die is reached inside this function, it will be logged and
  * now further diagnostic messages ought to be printed.
  */
-static void	_sleep(t_philo *philo)
+static int	_sleep(t_philo *philo)
 {
-	log_philo(PHILO_SLEEPING, philo);
-	ft_msleep(philo->params->time_to_sleep);
+	if (philo == NULL)
+		return (EXIT_FAILURE);
+	if (log_philo(PHILO_SLEEPING, philo) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (ft_msleep(philo->params->time_to_sleep) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 /* This is the "resource work" function, where a thread occupies ("holds")
@@ -47,23 +53,35 @@ static void	_sleep(t_philo *philo)
  * If time-to-die is reached inside this function, it will be logged and
  * now further diagnostic messages ought to be printed.
  */
-static void	_eat(t_philo *philo)
+static int	_eat(t_philo *philo)
 {
-	log_philo(PHILO_THINKING, philo);
-	_pickup_forks(philo);
-	log_philo(PHILO_EATING, philo);
-	ft_msleep(philo->params->time_to_eat);
-	_putdown_forks(philo);
+	if (philo == NULL)
+		return (EXIT_FAILURE);
+	if (log_philo(PHILO_THINKING, philo) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (_pickup_forks(philo) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (log_philo(PHILO_EATING, philo) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (ft_msleep(philo->params->time_to_eat) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (_putdown_forks(philo) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 /* Main philosopher routine: eat, think, sleep, repeat, die.
  */
-void	*routine(void *philo)
+int	*routine(void *philo)
 {
+	if (philo == NULL)
+		return (NULL);
 	while (1)
 	{
-		_eat(philo);
-		_sleep(philo);
+		if (_eat(philo) == EXIT_FAILURE)
+			return (NULL);
+		if (_sleep(philo) == EXIT_FAILURE)
+			return (NULL);
 	}
-	return (NULL);
+	return (philo);
 }

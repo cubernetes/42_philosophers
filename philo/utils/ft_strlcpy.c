@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:35:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:41:30 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 18:59:44 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -33,7 +33,7 @@ size_t	ft_strlcpy(
 		dst++;
 		len++;
 	}
-	if (size)
+	if (size != 0)
 		*dst = '\0';
 	while (src[len] != '\0')
 		++len;

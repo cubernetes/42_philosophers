@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 23:21:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:39:01 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:02:38 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -22,7 +22,7 @@ static void	_parse_tail(
 {
 	if (*nptr != '\0')
 		*status |= STATUS_NO_TRAIL_NUL;
-	while (*nptr)
+	while (*nptr != '\0')
 	{
 		if (*nptr != ' ' && *nptr != '\n' && *nptr != '\t')
 			*status |= STATUS_NO_TRAIL_WHITE;
@@ -44,7 +44,7 @@ static int	_ft_atoi_status_neg(
 	prev_res = 0;
 	if (ft_isdigit(*nptr) == 0)
 		*status |= STATUS_EMPTY_STR;
-	while (ft_isdigit(*nptr))
+	while (ft_isdigit(*nptr) != 0)
 	{
 		res = res * 10 - (*nptr - '0');
 		if (res > prev_res)
@@ -70,7 +70,7 @@ static int	_ft_atoi_status_pos(
 	prev_res = 0;
 	if (ft_isdigit(*nptr) == 0)
 		*status |= STATUS_EMPTY_STR;
-	while (ft_isdigit(*nptr))
+	while (ft_isdigit(*nptr) != 0)
 	{
 		res = res * 10 + (*nptr - '0');
 		if (res < prev_res)
@@ -94,7 +94,7 @@ int	ft_atoi_status(
 	*status = 0;
 	if (nptr == NULL)
 		return (STATUS_NULL_STR);
-	while (ft_isspace(*nptr))
+	while (ft_isspace(*nptr) != 0)
 		++nptr;
 	if (*nptr == '-')
 	{

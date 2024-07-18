@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:27:25 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:40:31 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:03:43 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -21,7 +21,7 @@ char	*ft_strchr(
 	int c
 )
 {
-	while (*s)
+	while (*s != '\0')
 	{
 		if (*s == (unsigned char)c)
 			return ((char *)s);
