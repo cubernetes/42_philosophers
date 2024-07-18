@@ -6,7 +6,7 @@
 #    By: tosuman <timo42@proton.me>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/15 20:33:50 by tosuman           #+#    #+#              #
-#    Updated: 2024/07/16 06:12:27 by tosuman          ###   ########.fr        #
+#    Updated: 2024/07/18 02:53:45 by tosuman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # ex: set ts=4 sw=4 ft=make noet #
@@ -46,12 +46,13 @@ SRC += spawn_philos.c
 vpath %.c	init
 
 SRC += init.c
-SRC += init_log_lvl.c
+SRC += init_from_env.c
 SRC += argv_parsing.c
 
 vpath %.c	logger
 
 SRC += logger.c
+SRC += log_philo.c
 SRC += log_level.c
 SRC += log_wrappers.c
 SRC += log_wrappers_nonl.c

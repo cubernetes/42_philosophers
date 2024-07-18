@@ -6,13 +6,14 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:46:07 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 03:59:35 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 02:40:46 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
 #include "philosophers.h"
 
+#include <pthread.h>
 #include <stdlib.h>
 
 /* check that program was called with the required number of parameters */
@@ -60,15 +61,19 @@ static int	_parse_arguments(int argc, char *argv[], t_params *params)
 	return (EXIT_SUCCESS);
 }
 
-/* init_log_lvl.c */
+/* init_from_env.c */
 int	_init_log_lvl(char *envp[]);
+int	_init_debug(char *envp[], t_params *params);
 
 /* set loglevel and validate & initalize simulation parameters */
 int	init(int argc, char *argv[], char *envp[], t_params *params)
 {
+	if (_init_debug(envp, params))
+		return (EXIT_FAILURE);
 	if (_init_log_lvl(envp))
 		return (EXIT_FAILURE);
 	if (_parse_arguments(argc, argv, params))
 		return (EXIT_FAILURE);
+	pthread_mutex_init(&params->log_mtx, NULL);
 	return (EXIT_SUCCESS);
 }

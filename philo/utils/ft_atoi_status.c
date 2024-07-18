@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 23:21:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 00:06:43 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 02:44:36 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -38,7 +38,7 @@ static int	_ft_atoi_status_neg(
 
 	res = 0;
 	prev_res = 0;
-	if (!ft_isdigit(*nptr))
+	if (ft_isdigit(*nptr) == 0)
 		*status |= STATUS_EMPTY_STR;
 	while (ft_isdigit(*nptr))
 	{
@@ -62,7 +62,7 @@ static int	_ft_atoi_status_pos(
 
 	res = 0;
 	prev_res = 0;
-	if (!ft_isdigit(*nptr))
+	if (ft_isdigit(*nptr) == 0)
 		*status |= STATUS_EMPTY_STR;
 	while (ft_isdigit(*nptr))
 	{

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 06:07:37 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 02:56:08 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -38,6 +38,11 @@ specifying time to sleep (argument 4, 'TOS')."
 specifying the minimum number of meals required per philosopher \
 to end the simulation (argument 5, 'ME')."
 
+# define PHILO_SLEEPING_MSG "is sleeping"
+# define PHILO_THINKING_MSG "is thinking"
+# define PHILO_EATING_MSG   "is eating"
+# define PHILO_FORK_MSG     "has taken a fork"
+
 /********************************* enums **************************************/
 enum e_ansi
 {
@@ -46,13 +51,14 @@ enum e_ansi
 	GREEN		= 2,		/*   |                                */
 	ORANGE		= 3,		/*   |                                */
 	BLUE		= 4,		/*   +-- first 3 bits determine color */
-	MEGANTA		= 5,		/*   |                                */
+	MAGENTA		= 5,		/*   |                                */
 	CYAN		= 6,		/*   |                                */
 	WHITE		= 7,		/* --+                                */
 	BOLD		= 1 << 3,	/* combinable */
 	ITALIC		= 1 << 4,	/* combinable */
 	UNDERLINE	= 1 << 5,	/* combinable */
 	INVERT		= 1 << 6,	/* combinable */
+	NO_CLR		= 1 << 7,	/* !mutually exlusive to all over values! */
 };
 
 /* fine grained log levels may be specified */
@@ -76,14 +82,25 @@ enum e_aton_status
 	STATUS_NULL_STR			= 1 << 4,
 };
 
+enum e_philo_log
+{
+	PHILO_SLEEPING	= 0,
+	PHILO_THINKING	= 1,
+	PHILO_EATING	= 2,
+	PHILO_FORK		= 3,
+};
+
 /*********************************** structs **********************************/
 typedef struct s_params
 {
-	int	num_philos;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	min_eat;
+	int				num_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				min_eat;
+	time_t			start_time;
+	pthread_mutex_t	log_mtx;
+	int				debug;
 }	t_params;
 
 typedef struct s_fork
@@ -99,6 +116,7 @@ typedef struct s_philo
 	t_fork			*right_fork;
 	time_t			last_meal;
 	int				keep_going;
+	t_params		*params;
 }	t_philo;
 
 /********************************** prototypes ********************************/
@@ -126,6 +144,7 @@ int				log_error_nonl(char const *msg);
 int				log_warn_nonl(char const *msg);
 int				log_info_nonl(char const *msg);
 int				log_debug_nonl(char const *msg);
+void			log_philo(enum e_philo_log log, t_philo *philo);
 
 /* misc */
 void			print_usage(char *argv[]);

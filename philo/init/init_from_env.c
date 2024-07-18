@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_log_lvl.c                                     :+:      :+:    :+:   */
+/*   init_from_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:40:16 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 23:07:56 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 02:45:02 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -43,5 +43,21 @@ int	_init_log_lvl(char *envp[])
 		++envp;
 	}
 	(void)set_log_lvl(INFO);
+	return (EXIT_SUCCESS);
+}
+
+/* read the DEBUG environment variable and set the debug flag accordingly */
+int	_init_debug(char *envp[], t_params *params)
+{
+	while (*envp)
+	{
+		if (ft_strncmp(*envp, "DEBUG=", 6) == 0)
+		{
+			params->debug = ft_strcmp(*envp + 6, "1") == 0;
+			return (EXIT_SUCCESS);
+		}
+		++envp;
+	}
+	params->debug = 0;
 	return (EXIT_SUCCESS);
 }

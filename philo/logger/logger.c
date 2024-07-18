@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:49:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 00:23:57 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 02:47:57 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -60,6 +60,8 @@ int	logger(
 
 	if (get_log_lvl() > log_lvl)
 		return (0);
+	if (ansi == NO_CLR)
+		return (printf("%s\n", msg));
 	color = _build_color(ansi);
 	attrs = _build_attrs(ansi);
 	ret = printf("\033[%s%sm%s\033[m\n", color, attrs, msg);
@@ -82,6 +84,8 @@ int	logger_nonl(
 
 	if (get_log_lvl() > log_lvl)
 		return (0);
+	if (ansi == NO_CLR)
+		return (printf("%s", msg));
 	color = _build_color(ansi);
 	attrs = _build_attrs(ansi);
 	ret = printf("\033[%s%sm%s\033[m", color, attrs, msg);

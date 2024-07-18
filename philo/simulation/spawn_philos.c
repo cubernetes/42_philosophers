@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:06:15 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 06:27:12 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/17 01:34:18 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -41,6 +41,7 @@ static t_philo	*_init_philo(
 	t_philo	*philo;
 
 	philo = malloc(sizeof(*philo));
+	philo->params = params;
 	philo->right_fork = right_fork;
 	if (id == (unsigned int)params->num_philos - 1)
 		philo->left_fork = first_fork;
@@ -71,6 +72,7 @@ t_philo	**_spawn_philos(
 	idx = 0;
 	philos = malloc(sizeof(*philos) * (size_t)params->num_philos);
 	first_fork = _new_fork((unsigned int)params->num_philos - 1);
+	params->start_time = get_mtime();
 	philo = _init_philo(0, params, first_fork, first_fork);
 	philos[idx] = philo;
 	while (1)
