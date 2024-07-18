@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
-#include "philosophers.h"
+#include "philo.h"
 
 /* set the log level, which must not be equal to GET_LOG_LVL */
 enum e_log_lvl	set_log_lvl(enum e_log_lvl new_log_lvl)

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 02:56:08 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:05:08 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H	1
+#ifndef PHILO_H
+# define PHILO_H	1
 
 /******************************** includes ************************************/
 # include <stddef.h>
@@ -181,4 +181,4 @@ int				ft_isdigit(int c);
 
 int				ft_atoi_status(char const *nptr, int *status);
 
-#endif /* philosophers.h */
+#endif /* philo.h */

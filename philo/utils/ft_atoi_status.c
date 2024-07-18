@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
-#include "philosophers.h"
+#include "philo.h"
 
 static void	_parse_tail(
 	char const *nptr,
