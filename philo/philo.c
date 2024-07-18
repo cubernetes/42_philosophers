@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:52:21 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:55:14 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -32,6 +32,8 @@
  * At times, there might be more text, when it comes to the algorithm
  * for example and my thought processes.
  * This code base is supposed to be educational, in a sense, also for me.
+ *
+ * The "ex: set..." you see in every file is for vim. It's called "modeline"
  */
 int	main(
 	int argc,
