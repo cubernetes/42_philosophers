@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:07:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:35:17 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:51:45 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -38,7 +38,7 @@ static void	_sleep(t_philo *philo)
  * The logic in "pickup" and "putdown" is the important bit. This implementation
  * uses the "every other philosopher picks up their forks right-then-left
  * instead of left-then-right". This, however, does not distribute the resources
- * in a fair manner, see the following link (dphil_4.c):
+ * in a fair manner, see the following link (solution #4):
  * https://web.eecs.utk.edu/~mbeck/classes/cs560/560/notes/Dphil/lecture.html
  * In the context of the subject, we do not care about equal blocking times,
  * and since this solution is surprisingly simple/elegant, I'm gonna keep it

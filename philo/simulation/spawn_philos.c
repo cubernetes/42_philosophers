@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:06:15 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:36:03 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:48:05 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -59,6 +59,11 @@ void	*routine(void *data);
 /* Create and return a heap-allocated array of philosopher structs,
  * each containing (e.g.) 2 pointers, one for the left fork, one for the
  * right fork, where adjacent philosophers share the same pointer to a fork.
+ *
+ * Additionally, create <number of philosophers> threads, passing the
+ * philosopher as the void-ptr to the "routine" function (the entry point
+ * to the thread). This has to be done reasonably fast to avoid delays
+ * in starting times.
  */
 t_philo	**_spawn_philos(
 	pthread_t *philo_threads,

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 03:06:58 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:25:37 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:51:05 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -20,11 +20,12 @@
  * the order of locking ought to be REVERSED.
  *
  * This breaks the 4th coffman condition, hence preventing deadlocks.
- * Additionally, it prevents starvation in general. However, it does
- * not distribute blocking times fairly among threads. The philosohper
- * with the lowest id generally has to wait longer than the one with the
- * highest id. This is explained superficially in this link:
+ * Additionally, it prevents starvation in general (unlike when assigning a
+ * partial order). However, it does not distribute blocking times fairly among
+ * threads. The philosohper with the lowest id generally has to wait longer than
+ * the one with the highest id. This is explained superficially in this link:
  * https://web.eecs.utk.edu/~mbeck/classes/cs560/560/notes/Dphil/lecture.html
+ * Cf. solution 4.
  */
 void	_pickup_forks(t_philo *philo)
 {
