@@ -6,12 +6,12 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 23:21:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:02:38 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:58:37 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
-#include "philo.h"
+#include "utils.h"
 
 /* Helper to parse the trailing portion of a number.
  */

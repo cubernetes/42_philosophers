@@ -6,18 +6,15 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:53:15 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:57:52 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
 #include "philo.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-
-#include <unistd.h>
 
 /* Join the philosophers threads (so they can be cleaned up later).
  */

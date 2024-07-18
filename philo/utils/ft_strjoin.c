@@ -6,12 +6,12 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:45:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:41:10 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:58:59 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
-#include "philo.h"
+#include "utils.h"
 
 #include <stdlib.h>
 

@@ -6,12 +6,13 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 03:06:58 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 18:59:15 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:57:40 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
 #include "philo.h"
+
 #include <stdlib.h>
 
 /* Philosophers are sitting around a round table with sequential integer

@@ -6,7 +6,7 @@
 #    By: tosuman <timo42@proton.me>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/15 20:33:50 by tosuman           #+#    #+#              #
-#    Updated: 2024/07/18 16:52:13 by tischmid         ###   ########.fr        #
+#    Updated: 2024/07/18 20:01:21 by tischmid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # ex: set ts=4 sw=4 ft=make noet #
@@ -23,7 +23,7 @@ MKDIR := /bin/mkdir -p
 CFLAGS := -O2 -Wall -Wextra -Werror\
 		  -pedantic -Wconversion \
 		  -Wunreachable-code -Wshadow
-CPPFLAGS := -I. -MMD
+CPPFLAGS := -I. -Iutils -MMD
 LDFLAGS :=
 LDLIBS := -lpthread
 ifeq ($(DEBUG), 1)

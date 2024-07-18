@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:15:07 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 20:03:08 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,7 +15,8 @@
 # define PHILO_H	1
 
 /******************************** includes ************************************/
-# include <stddef.h>
+# include "utils.h"
+
 # include <sys/time.h>
 # include <pthread.h>
 
@@ -70,16 +71,6 @@ enum e_log_lvl
 	WARN		= 30,
 	ERROR		= 40,
 	FATAL		= 50,
-};
-
-/* Possible status flag for "a to n" conversions (e.g. atoi, atol, etc.) */
-enum e_aton_status
-{
-	STATUS_OVERFLOW			= 1 << 0,
-	STATUS_NO_TRAIL_NUL		= 1 << 1,
-	STATUS_NO_TRAIL_WHITE	= 1 << 2,
-	STATUS_EMPTY_STR		= 1 << 3,
-	STATUS_NULL_STR			= 1 << 4,
 };
 
 enum e_philo_log
@@ -149,37 +140,5 @@ int				log_philo(enum e_philo_log log, t_philo *philo);
 
 /* misc */
 int				print_usage(char *argv[]);
-
-/* libft-utils */
-size_t			ft_strlen(char const *s);
-char			*ft_strchr(const char *s, int c);
-
-size_t			ft_strlcpy(char *dst, char const *src, size_t size);
-size_t			ft_strlcat(char *dst, char const *src, size_t size);
-
-char			*ft_strtrim(char const *s, char const *set);
-char			*ft_strtrim_free_1(char const *s, char const *set);
-char			*ft_strtrim_free_2(char const *s, char const *set);
-char			*ft_strtrim_free_12(char const *s, char const *set);
-
-char			*ft_strjoin(char const *s1, char const *s2);
-char			*ft_strjoin_free_1(char const *s1, char const *s2);
-char			*ft_strjoin_free_2(char const *s1, char const *s2);
-char			*ft_strjoin_free_12(char const *s1, char const *s2);
-
-char			*ft_strdup(char const *s);
-char			*ft_strdup_free(char const *s);
-
-void			ft_bzero(void *ptr, size_t n);
-unsigned int	ft_abs(int n);
-
-int				ft_strcmp(char const *s1, char const *s2);
-int				ft_strncmp(char const *s1, char const *s2, size_t len);
-char			*ft_itoa(int n);
-
-int				ft_isspace(int c);
-int				ft_isdigit(int c);
-
-int				ft_atoi_status(char const *nptr, int *status);
 
 #endif /* philo.h */

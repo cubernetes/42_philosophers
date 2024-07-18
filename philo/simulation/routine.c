@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:07:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 18:58:14 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:57:46 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -14,7 +14,6 @@
 #include "philo.h"
 
 #include <pthread.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 /* fork_logic.c */
