@@ -6,7 +6,7 @@
 #    By: tosuman <timo42@proton.me>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/15 20:33:50 by tosuman           #+#    #+#              #
-#    Updated: 2024/07/18 03:09:38 by tosuman          ###   ########.fr        #
+#    Updated: 2024/07/18 16:52:13 by tischmid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # ex: set ts=4 sw=4 ft=make noet #
@@ -29,6 +29,11 @@ LDLIBS := -lpthread
 ifeq ($(DEBUG), 1)
 	CFLAGS += -ggdb3 -O0
 	LDFLAGS += -ggdb3 -O0
+endif
+
+ifeq ($(TSAN), 1)
+	CFLAGS += -fsanitize=thread
+	LDFLAGS += -fsanitize=thread
 endif
 
 # sources

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:43:58 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 16:51:15 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -33,7 +33,7 @@ void	ft_msleep(int ms)
 	struct timeval	tv_delta;
 	time_t			delay_usec;
 
-	if (1)
+	if ((1))
 		usleep((unsigned int)ms * 1000);
 	else
 	{
