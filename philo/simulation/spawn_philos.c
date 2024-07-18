@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:06:15 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:25:37 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:36:06 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -70,6 +70,9 @@ static t_philo	*_init_philo(
 	return (philo);
 }
 
+/* Helper to free the philos pointer (just the pointer) and the first_fork
+ * fork. Returns the ptr pointer passed as a parameter (to save lines).
+ */
 static void	*_cleanup_philos_fork(
 	t_philo **philos,
 	t_fork *first_fork,

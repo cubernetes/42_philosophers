@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:21:54 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:34:44 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -49,6 +49,8 @@ static int	_wait_for_philos(
  *
  * If params is NULL, philos must be a NULL-terminated array, otherwise
  * the behaviour is undefined.
+ *
+ * Returns the ptr passed as a parameter (to save lines).
  */
 void	*cleanup_philos(
 	t_philo **philos,
@@ -76,6 +78,9 @@ void	*cleanup_philos(
 	return (ptr);
 }
 
+/* Helper function to free up philosopher array, philosopher threads,
+ * and to destroy the mutex.
+ */
 static int	_cleanup_simulation(
 	t_philo **philos,
 	t_params *params,

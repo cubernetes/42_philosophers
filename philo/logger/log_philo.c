@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:48:02 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 18:56:22 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:36:29 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -47,6 +47,9 @@ static char	*_get_philo_log_msg(enum e_philo_log log)
 	return ("has done something extraordinary...");
 }
 
+/* Helper to free the offset and id strings. Returns with the exit_status
+ * passed as a parameter (to save lines).
+ */
 static int	_free_offset_id(
 	char *offset,
 	char *id,
@@ -60,6 +63,10 @@ static int	_free_offset_id(
 	return (exit_status);
 }
 
+/* Just for norminette. Prints the start of a log entry, e.g.
+ * "200 3 "
+ * without the quotes and without then newline. The message follows immediately.
+ */
 static int	_start_log_entry(
 	t_philo *philo,
 	char *offset,
