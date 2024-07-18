@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:06:15 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 18:56:00 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:25:37 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -70,6 +70,43 @@ static t_philo	*_init_philo(
 	return (philo);
 }
 
+static void	*_cleanup_philos_fork(
+	t_philo **philos,
+	t_fork *first_fork,
+	void *ptr
+)
+{
+	if (philos != NULL)
+		free(philos);
+	if (first_fork != NULL)
+		free(first_fork);
+	return (ptr);
+}
+
+static t_philo	**_prepare_philo_spawning(
+	t_params *params,
+	t_fork **first_fork,
+	t_philo **first_philo
+)
+{
+	t_philo			**philos;
+
+	philos = malloc(sizeof(*philos) * (size_t)params->num_philos);
+	if (philos == NULL)
+		return (NULL);
+	ft_bzero(philos, sizeof(*philos) * (size_t)params->num_philos);
+	*first_fork = _new_fork((unsigned int)params->num_philos - 1);
+	if (*first_fork == NULL)
+		return (_cleanup_philos_fork(philos, *first_fork, NULL));
+	params->start_time = get_mtime();
+	if (params->start_time == 0)
+		return (_cleanup_philos_fork(philos, *first_fork, NULL));
+	*first_philo = _init_philo(0, params, *first_fork, *first_fork);
+	if (*first_philo == NULL)
+		return (_cleanup_philos_fork(philos, *first_fork, NULL));
+	return (philos);
+}
+
 /* routine.c */
 void	*routine(void *data);
 
@@ -95,47 +132,20 @@ t_philo	**_spawn_philos(
 	if (philo_threads == NULL || params == NULL)
 		return (NULL);
 	idx = 0;
-	philos = malloc(sizeof(*philos) * (size_t)params->num_philos);
-	ft_bzero(philos, sizeof(*philos) * (size_t)params->num_philos);
-	if (philos == NULL)
+	philos = _prepare_philo_spawning(params, &first_fork, &philo);
+	if (philos == NULL || first_fork == NULL || philo == NULL)
 		return (NULL);
-	first_fork = _new_fork((unsigned int)params->num_philos - 1);
-	if (first_fork == NULL)
-	{
-		free(philos);
-		return (NULL);
-	}
-	params->start_time = get_mtime();
-	if (params->start_time == 0)
-	{
-		free(philos);
-		free(first_fork);
-		return (NULL);
-	}
-	philo = _init_philo(0, params, first_fork, first_fork);
-	if (philo == NULL)
-	{
-		free(philos);
-		free(first_fork);
-		return (NULL);
-	}
 	philos[idx] = philo;
 	while (1)
 	{
 		if (pthread_create(philo_threads + idx, NULL, routine, philo) != 0)
-		{
-			cleanup_philos(philos, params);
-			return (NULL);
-		}
+			return (cleanup_philos(philos, params, NULL));
 		++idx;
 		if (idx >= (unsigned int)params->num_philos)
 			break ;
 		philo = _init_philo(idx, params, philo->left_fork, first_fork);
 		if (philo == NULL)
-		{
-			cleanup_philos(philos, params);
-			return (NULL);
-		}
+			return (cleanup_philos(philos, params, NULL));
 		philos[idx] = philo;
 	}
 	return (philos);

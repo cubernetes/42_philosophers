@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 17:57:03 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:15:07 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -122,7 +122,7 @@ typedef struct s_philo
 /********************************** prototypes ********************************/
 int				init(int argc, char *argv[], char *envp[], t_params *params);
 int				simulate(t_params *params);
-void			cleanup_philos(t_philo **philos, t_params *params);
+void			*cleanup_philos(t_philo **philos, t_params *params, void *ptr);
 
 /* time */
 int				ft_msleep(int ms);

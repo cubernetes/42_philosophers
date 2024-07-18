@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:01:42 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:21:54 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -46,18 +46,26 @@ static int	_wait_for_philos(
 }
 
 /* Free the memory occupied by the philosopher threads, forks and structs.
+ *
+ * If params is NULL, philos must be a NULL-terminated array, otherwise
+ * the behaviour is undefined.
  */
-void	cleanup_philos(
+void	*cleanup_philos(
 	t_philo **philos,
-	t_params *params
+	t_params *params,
+	void *ptr
 )
 {
 	int	idx;
+	int	check_num;
 
-	if (philos == NULL || params == NULL)
-		return ;
+	if (philos == NULL)
+		return (ptr);
+	check_num = 1;
+	if (params == NULL)
+		check_num = 0;
 	idx = 0;
-	while (*philos != NULL && idx < params->num_philos)
+	while (*philos != NULL && (check_num == 0 || idx < params->num_philos))
 	{
 		free((*philos)->right_fork);
 		free((*philos));
@@ -65,6 +73,7 @@ void	cleanup_philos(
 		++idx;
 	}
 	free(philos);
+	return (ptr);
 }
 
 static int	_cleanup_simulation(
@@ -73,7 +82,7 @@ static int	_cleanup_simulation(
 	pthread_t *philo_threads
 )
 {
-	cleanup_philos(philos, params);
+	(void)cleanup_philos(philos, params, NULL);
 	if (philo_threads != NULL)
 		free(philo_threads);
 	if (pthread_mutex_destroy(&params->log_mtx) != 0)

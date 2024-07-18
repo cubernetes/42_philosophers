@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 18:54:01 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:26:54 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -52,9 +52,10 @@ int	ft_msleep(int ms)
 		{
 			if (gettimeofday(&tv_delta, NULL) != 0)
 				return (EXIT_FAILURE);
-			if ((tv_delta.tv_sec - tv_then.tv_sec) * 1000000 + tv_delta.tv_usec - tv_then.tv_usec >= delay_usec)
+			if ((tv_delta.tv_sec - tv_then.tv_sec) * 1000000 + tv_delta.tv_usec
+				- tv_then.tv_usec >= delay_usec)
 				break ;
-			// (void)usleep(10); /* TODO: Try different delays, spinlocking, etc. */
+			/*(void)usleep(10);//TODO: Try different delays, spinlocking, etc.*/
 		}
 		return (EXIT_SUCCESS);
 	}
