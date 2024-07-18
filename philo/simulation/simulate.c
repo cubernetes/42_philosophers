@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:34:44 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:53:15 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -98,7 +98,10 @@ static int	_cleanup_simulation(
 /* spawn_philos.c */
 t_philo	**_spawn_philos(pthread_t *philo_threads, t_params *params);
 
-/* Birds-eye simulation logic.
+/* Birds-eye simulation logic:
+ * - Spawn philosopher threads
+ * - Wait for philosopher threads to finish
+ * - Cleanup everything (also in case of error in between)
  */
 int	simulate(t_params *params)
 {
