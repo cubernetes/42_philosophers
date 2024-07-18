@@ -6,12 +6,12 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:42:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 22:43:25 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:40:37 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
-/* compare two string until they differ, at which point the ASCII value
+/* Compare two string until they differ, at which point the ASCII value
  * difference of the characters will be returned.
  */
 int	ft_strcmp(

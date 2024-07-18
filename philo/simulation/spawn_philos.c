@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:06:15 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/17 01:34:18 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:36:03 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,7 +16,8 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-/* create a new fork on the heap, initializing its corresponding mutex */
+/* Create a new fork on the heap, initializing its corresponding mutex.
+ */
 static t_fork	*_new_fork(unsigned int id)
 {
 	t_fork	*fork;
@@ -27,8 +28,8 @@ static t_fork	*_new_fork(unsigned int id)
 	return (fork);
 }
 
-/* initialize a single new philosopher using a given right fork.
- * the left fork is either created (on the heap) or set to the first
+/* Initialize a single new philosopher using a given right fork.
+ * The left fork is either created (on the heap) or set to the first
  * fork if we are at the last philosopher.
  */
 static t_philo	*_init_philo(
@@ -55,7 +56,7 @@ static t_philo	*_init_philo(
 /* routine.c */
 void	*routine(void *data);
 
-/* create and return a heap-allocated array of philosopher structs,
+/* Create and return a heap-allocated array of philosopher structs,
  * each containing (e.g.) 2 pointers, one for the left fork, one for the
  * right fork, where adjacent philosophers share the same pointer to a fork.
  */

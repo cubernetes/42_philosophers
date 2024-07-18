@@ -6,15 +6,16 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:53:56 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 21:15:17 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:41:20 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
 #include <stddef.h>
 
-/* concatenate two C-strings by writing into a pre-allocated buffer,
- * NUL-terminating the result. */
+/* Concatenate two C-strings by writing into a pre-allocated buffer,
+ * NUL-terminating the result.
+ */
 size_t	ft_strlcat(
 	char *dst,
 	char const *src,

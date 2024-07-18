@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:40:16 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 02:45:02 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:34:52 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,7 +15,8 @@
 
 #include <stdlib.h>
 
-/* helper function to set the loglevel from a string */
+/* Helper function to set the loglevel from a string.
+ */
 static int	_set_log_lvl_from_string(char const *s)
 {
 	if (ft_strcmp(s, "FATAL") == 0)
@@ -33,7 +34,8 @@ static int	_set_log_lvl_from_string(char const *s)
 	return (EXIT_SUCCESS);
 }
 
-/* read the LOGLEVEL environment variable and set the loglevel accordingly */
+/* Read the LOGLEVEL environment variable and set the loglevel accordingly.
+ */
 int	_init_log_lvl(char *envp[])
 {
 	while (*envp)
@@ -46,7 +48,8 @@ int	_init_log_lvl(char *envp[])
 	return (EXIT_SUCCESS);
 }
 
-/* read the DEBUG environment variable and set the debug flag accordingly */
+/* Read the DEBUG environment variable and set the debug flag accordingly.
+ */
 int	_init_debug(char *envp[], t_params *params)
 {
 	while (*envp)

@@ -6,14 +6,15 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:49:19 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 00:27:19 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:44:14 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
 #include "philo.h"
 
-/* print how to use this program */
+/* Print how to use this program.
+ */
 void	print_usage(char *argv[])
 {
 	(void)log_info_nonl("Usage: ");

@@ -6,12 +6,13 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:31:18 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 21:34:10 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:36:39 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
-/* return the unsigned absolute value of the integer n */
+/* Return the unsigned absolute value of the integer n.
+ */
 unsigned int	ft_abs(int n)
 {
 	if (n > 0)

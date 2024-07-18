@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:18:29 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 21:10:09 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:42:05 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,7 +15,7 @@
 
 #include <stdlib.h>
 
-/* calculate the size of a C-string after trimming it left and right
+/* Calculate the size of a C-string after trimming it left and right
  * of the characters in set.
  */
 static	size_t	_size_after_trim(
@@ -40,9 +40,9 @@ static	size_t	_size_after_trim(
 	return ((size_t)(end - start + 1));
 }
 
-/* trim a C-string left and right of the characters in set,
+/* Trim a C-string left and right of the characters in set,
  * returning the heap-allocated result.
- * free no arguments.
+ * Free no arguments.
  */
 char	*ft_strtrim(
 	char const *s,
@@ -64,9 +64,9 @@ char	*ft_strtrim(
 	return (trimmed_str);
 }
 
-/* trim a C-string left and right of the characters in set,
+/* Trim a C-string left and right of the characters in set,
  * returning the heap-allocated result.
- * free the first argument.
+ * Free the first argument.
  */
 char	*ft_strtrim_free_1(
 	char const *s,
@@ -92,9 +92,9 @@ char	*ft_strtrim_free_1(
 	return (trimmed_str);
 }
 
-/* trim a C-string left and right of the characters in set,
+/* Trim a C-string left and right of the characters in set,
  * returning the heap-allocated result.
- * free the second argument.
+ * Free the second argument.
  */
 char	*ft_strtrim_free_2(
 	char const *s,
@@ -120,9 +120,9 @@ char	*ft_strtrim_free_2(
 	return (trimmed_str);
 }
 
-/* trim a C-string left and right of the characters in set,
+/* Trim a C-string left and right of the characters in set,
  * returning the heap-allocated result.
- * free both arguments.
+ * Free both arguments.
  */
 char	*ft_strtrim_free_12(
 	char const *s,

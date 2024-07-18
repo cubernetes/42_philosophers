@@ -6,13 +6,15 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 23:21:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 02:44:36 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:39:01 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
 #include "philo.h"
 
+/* Helper to parse the trailing portion of a number.
+ */
 static void	_parse_tail(
 	char const *nptr,
 	int *status
@@ -28,6 +30,8 @@ static void	_parse_tail(
 	}
 }
 
+/* Helper to parse a negative number (the - must be already consumed).
+ */
 static int	_ft_atoi_status_neg(
 	char const *nptr,
 	int *status
@@ -52,6 +56,8 @@ static int	_ft_atoi_status_neg(
 	return (res);
 }
 
+/* Helper to parse a positive number (the optional + must be already consumed).
+ */
 static int	_ft_atoi_status_pos(
 	char const *nptr,
 	int *status
@@ -76,6 +82,10 @@ static int	_ft_atoi_status_pos(
 	return (res);
 }
 
+/* Return an integer represented by the string passes as nptr.
+ * Save any parsing errors (such as overflow, trailing non-whitespace, ...)
+ * as a flag in the status field.
+ */
 int	ft_atoi_status(
 	char const *nptr,
 	int *status

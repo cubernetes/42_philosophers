@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:30:47 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 21:43:41 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:40:23 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,7 +15,8 @@
 
 #include <stdlib.h>
 
-/* convert an integer to a heap-allocated C-string */
+/* Convert an integer to a heap-allocated C-string.
+ */
 char	*ft_itoa(int n)
 {
 	char			*str;

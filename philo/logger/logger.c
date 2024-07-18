@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:49:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 02:47:57 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:32:44 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,8 +16,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* returns a malloc'd, semicolon delimited string of
- * ANSI escape sequence attributes, specifically for color */
+/* Returns a malloc'd, semicolon delimited string of
+ * ANSI escape sequence attributes, specifically for color.
+ */
 static char	*_build_color(enum e_ansi ansi)
 {
 	char	*color;
@@ -29,8 +30,9 @@ static char	*_build_color(enum e_ansi ansi)
 	return (color);
 }
 
-/* returns a malloc'd, semicolon delimited string of
- * ANSI escape sequence attributes */
+/* Returns a malloc'd, semicolon delimited string of
+ * ANSI escape sequence attributes.
+ */
 static char	*_build_attrs(enum e_ansi ansi)
 {
 	char	*attrs;
@@ -47,7 +49,8 @@ static char	*_build_attrs(enum e_ansi ansi)
 	return (attrs);
 }
 
-/* log a given msg to stdout, respecting the log level and color settings */
+/* Log a given msg to stdout, respecting the log level and color settings.
+ */
 int	logger(
 	const char *msg,
 	enum e_ansi ansi,
@@ -70,8 +73,9 @@ int	logger(
 	return (ret);
 }
 
-/* log a given msg to stdout without a newline,
- * respecting the log level and color settings */
+/* Log a given msg to stdout without a newline,
+ * respecting the log level and color settings.
+ */
 int	logger_nonl(
 	const char *msg,
 	enum e_ansi ansi,

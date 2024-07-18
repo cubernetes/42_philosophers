@@ -6,7 +6,7 @@
 #    By: tosuman <timo42@proton.me>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/15 20:33:50 by tosuman           #+#    #+#              #
-#    Updated: 2024/07/18 03:02:48 by tosuman          ###   ########.fr        #
+#    Updated: 2024/07/18 03:09:38 by tosuman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # ex: set ts=4 sw=4 ft=make noet #
@@ -42,6 +42,7 @@ vpath %.c	simulation
 SRC += routine.c
 SRC += simulate.c
 SRC += spawn_philos.c
+SRC += fork_logic.c
 
 vpath %.c	init
 

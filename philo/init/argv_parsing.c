@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 23:05:54 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/16 19:22:57 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:33:34 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,7 +15,8 @@
 
 #include <stdlib.h>
 
-/* validate & initalize number_of_philosophers simulation parameter */
+/* Validate & initalize number_of_philosophers simulation parameter.
+ */
 int	_num_philos_check(char const *arg, t_params *params)
 {
 	int	status;
@@ -30,7 +31,8 @@ int	_num_philos_check(char const *arg, t_params *params)
 	return (EXIT_SUCCESS);
 }
 
-/* validate & initalize time_to_die simulation parameter */
+/* Validate & initalize time_to_die simulation parameter.
+ */
 int	_time_to_die_check(char const *arg, t_params *params)
 {
 	int	status;
@@ -45,7 +47,8 @@ int	_time_to_die_check(char const *arg, t_params *params)
 	return (EXIT_SUCCESS);
 }
 
-/* validate & initalize time_to_eat simulation parameter */
+/* Validate & initalize time_to_eat simulation parameter.
+ */
 int	_time_to_eat_check(char const *arg, t_params *params)
 {
 	int	status;
@@ -60,7 +63,8 @@ int	_time_to_eat_check(char const *arg, t_params *params)
 	return (EXIT_SUCCESS);
 }
 
-/* validate & initalize time_to_sleep simulation parameter */
+/* Validate & initalize time_to_sleep simulation parameter.
+ */
 int	_time_to_sleep_check(char const *arg, t_params *params)
 {
 	int	status;
@@ -75,8 +79,9 @@ int	_time_to_sleep_check(char const *arg, t_params *params)
 	return (EXIT_SUCCESS);
 }
 
-/* validate & initalize number_of_times_each_philosophers_must_each
- * simulation parameter or set it to -1 if it was not specified */
+/* Validate & initalize number_of_times_each_philosophers_must_each
+ * simulation parameter or set it to -1 if it was not specified.
+ */
 int	_min_eat_check(char const *arg, t_params *params)
 {
 	int	status;

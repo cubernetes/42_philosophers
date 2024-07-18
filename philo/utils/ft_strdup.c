@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 20:07:41 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 20:31:08 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:40:48 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,8 +15,8 @@
 
 #include <stdlib.h>
 
-/* return a heap-allocated copy of the C-string s.
- * not freeing any arguments.
+/* Return a heap-allocated copy of the C-string s.
+ * Not freeing any arguments.
  */
 char	*ft_strdup(char const *s)
 {
@@ -31,8 +31,8 @@ char	*ft_strdup(char const *s)
 	return (res);
 }
 
-/* return a heap-allocated copy of the C-string s.
- * freeing the first argument.
+/* Return a heap-allocated copy of the C-string s.
+ * Freeing the first argument.
  */
 char	*ft_strdup_free(char const *s)
 {

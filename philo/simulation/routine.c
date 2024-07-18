@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:07:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 02:56:57 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:35:17 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,44 +16,37 @@
 #include <pthread.h>
 #include <stdio.h>
 
+/* fork_logic.c */
+void	_pickup_forks(t_philo *philo);
+void	_putdown_forks(t_philo *philo);
+
+/* this is the "idle work" function, where the thread just idly sits and
+ * does not need any of the mutually exclusive resources, thereby allowing
+ * other threads to use them (forks/chopsticks in our case).
+ *
+ * If time-to-die is reached inside this function, it will be logged and
+ * now further diagnostic messages ought to be printed.
+ */
 static void	_sleep(t_philo *philo)
 {
 	log_philo(PHILO_SLEEPING, philo);
 	ft_msleep(philo->params->time_to_sleep);
 }
 
-static void	_pickup_forks(t_philo *philo)
-{
-	if (philo->id % 2)
-	{
-		pthread_mutex_lock(&philo->right_fork->mutex);
-		log_philo(PHILO_FORK, philo);
-		pthread_mutex_lock(&philo->left_fork->mutex);
-		log_philo(PHILO_FORK, philo);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->left_fork->mutex);
-		log_philo(PHILO_FORK, philo);
-		pthread_mutex_lock(&philo->right_fork->mutex);
-		log_philo(PHILO_FORK, philo);
-	}
-}
-
-static void	_putdown_forks(t_philo *philo)
-{
-	if (philo->id % 2)
-	{
-		pthread_mutex_unlock(&philo->left_fork->mutex);
-		pthread_mutex_unlock(&philo->right_fork->mutex);
-	}
-	else
-	{
-		pthread_mutex_unlock(&philo->right_fork->mutex);
-		pthread_mutex_unlock(&philo->left_fork->mutex);
-	}
-}
-
+/* This is the "resource work" function, where a thread occupies ("holds")
+ * the mutually exclusive resource (in this case, forks/chopsticks).
+ * The logic in "pickup" and "putdown" is the important bit. This implementation
+ * uses the "every other philosopher picks up their forks right-then-left
+ * instead of left-then-right". This, however, does not distribute the resources
+ * in a fair manner, see the following link (dphil_4.c):
+ * https://web.eecs.utk.edu/~mbeck/classes/cs560/560/notes/Dphil/lecture.html
+ * In the context of the subject, we do not care about equal blocking times,
+ * and since this solution is surprisingly simple/elegant, I'm gonna keep it
+ * this way.
+ *
+ * If time-to-die is reached inside this function, it will be logged and
+ * now further diagnostic messages ought to be printed.
+ */
 static void	_eat(t_philo *philo)
 {
 	log_philo(PHILO_THINKING, philo);
@@ -63,17 +56,14 @@ static void	_eat(t_philo *philo)
 	_putdown_forks(philo);
 }
 
-/* main philosopher routine: eat, think, sleep, repeat, die */
-void	*routine(void *_philo)
+/* Main philosopher routine: eat, think, sleep, repeat, die.
+ */
+void	*routine(void *philo)
 {
-	t_philo	*philo;
-
-	philo = _philo;
 	while (1)
 	{
 		_eat(philo);
 		_sleep(philo);
-		/* _think(philo); */
 	}
 	return (NULL);
 }

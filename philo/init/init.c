@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:46:07 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 02:40:46 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:34:26 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,7 +16,8 @@
 #include <pthread.h>
 #include <stdlib.h>
 
-/* check that program was called with the required number of parameters */
+/* Check that program was called with the required number of parameters.
+ */
 static int	_argc_check(int argc)
 {
 	if (argc != 5 && argc != 6)
@@ -34,8 +35,10 @@ int	_time_to_eat_check(char const *arg, t_params *params);
 int	_time_to_sleep_check(char const *arg, t_params *params);
 int	_min_eat_check(char const *arg, t_params *params);
 
-/* parse each parameter individually and initialize simulation parameters */
-/* this function depends on _argc_check */
+/* Parse each parameter individually and initialize simulation parameters.
+ *
+ * This function depends on _argc_check.
+ */
 static int	_argv_check(char *argv[], t_params *params)
 {
 	if (_num_philos_check(argv[1], params))
@@ -51,7 +54,8 @@ static int	_argv_check(char *argv[], t_params *params)
 	return (EXIT_SUCCESS);
 }
 
-/* parse command line arguments to initialize simulation parameters */
+/* Parse command line arguments to initialize simulation parameters.
+ */
 static int	_parse_arguments(int argc, char *argv[], t_params *params)
 {
 	if (_argc_check(argc))
@@ -65,7 +69,8 @@ static int	_parse_arguments(int argc, char *argv[], t_params *params)
 int	_init_log_lvl(char *envp[]);
 int	_init_debug(char *envp[], t_params *params);
 
-/* set loglevel and validate & initalize simulation parameters */
+/* Set loglevel and validate & initalize simulation parameters.
+ */
 int	init(int argc, char *argv[], char *envp[], t_params *params)
 {
 	if (_init_debug(envp, params))

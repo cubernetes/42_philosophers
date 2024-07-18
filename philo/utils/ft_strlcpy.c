@@ -6,17 +6,17 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:35:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/15 20:31:21 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/18 03:41:30 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
 #include <stddef.h>
 
-/* copy a C-string to another C-string.
- * the resulting string will always be NUL-terminated.
+/* Copy a C-string to another C-string.
+ * The resulting string will always be NUL-terminated.
  * size includes the NUL-terminator.
- * always returns the length of src.
+ * Always returns the length of src.
  */
 size_t	ft_strlcpy(
 	char *dst,
