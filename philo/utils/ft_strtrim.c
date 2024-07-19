@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:18:29 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:59:07 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 06:55:37 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -81,14 +81,14 @@ char	*ft_strtrim_free_1(
 	trimmed_str = malloc(sizeof(*trimmed_str) * (trimmed_size + 1));
 	if (trimmed_str == NULL)
 	{
-		free((char *)s);
+		safe_free((char *)s);
 		return (NULL);
 	}
 	idx = 0;
 	while (s[idx] != '\0' && ft_strchr(set, s[idx]) != NULL)
 		++idx;
 	ft_strlcpy(trimmed_str, s + idx, trimmed_size + 1);
-	free((char *)s);
+	safe_free((char *)s);
 	return (trimmed_str);
 }
 
@@ -109,14 +109,14 @@ char	*ft_strtrim_free_2(
 	trimmed_str = malloc(sizeof(*trimmed_str) * (trimmed_size + 1));
 	if (trimmed_str == NULL)
 	{
-		free((char *)set);
+		safe_free((char *)set);
 		return (NULL);
 	}
 	idx = 0;
 	while (s[idx] != '\0' && ft_strchr(set, s[idx]) != NULL)
 		++idx;
 	ft_strlcpy(trimmed_str, s + idx, trimmed_size + 1);
-	free((char *)set);
+	safe_free((char *)set);
 	return (trimmed_str);
 }
 
@@ -137,15 +137,15 @@ char	*ft_strtrim_free_12(
 	trimmed_str = malloc(sizeof(*trimmed_str) * (trimmed_size + 1));
 	if (trimmed_str == NULL)
 	{
-		free((char *)s);
-		free((char *)set);
+		safe_free((char *)s);
+		safe_free((char *)set);
 		return (NULL);
 	}
 	idx = 0;
 	while (s[idx] != '\0' && ft_strchr(set, s[idx]) != NULL)
 		++idx;
 	ft_strlcpy(trimmed_str, s + idx, trimmed_size + 1);
-	free((char *)s);
-	free((char *)set);
+	safe_free((char *)s);
+	safe_free((char *)set);
 	return (trimmed_str);
 }

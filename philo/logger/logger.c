@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:49:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 18:20:46 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 06:56:54 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -19,7 +19,8 @@
 /* Returns a malloc'd, semicolon delimited string of
  * ANSI escape sequence attributes, specifically for color.
  */
-static char	*_build_color(enum e_ansi ansi)
+static
+char	*_build_color(enum e_ansi ansi)
 {
 	char	*color;
 
@@ -33,7 +34,8 @@ static char	*_build_color(enum e_ansi ansi)
 /* Returns a malloc'd, semicolon delimited string of
  * ANSI escape sequence attributes.
  */
-static char	*_build_attrs(enum e_ansi ansi)
+static
+char	*_build_attrs(enum e_ansi ansi)
 {
 	char		*attrs;
 	char const	*ansi_code;
@@ -78,12 +80,12 @@ int	logger(
 	attrs = _build_attrs(ansi);
 	if (attrs == NULL)
 	{
-		free(color);
+		safe_free(color);
 		return (-1);
 	}
 	ret = printf("\033[%s%sm%s\033[m\n", color, attrs, msg);
-	free(color);
-	free(attrs);
+	safe_free(color);
+	safe_free(attrs);
 	return (ret);
 }
 
@@ -110,11 +112,11 @@ int	logger_nonl(
 	attrs = _build_attrs(ansi);
 	if (attrs == NULL)
 	{
-		free(color);
+		safe_free(color);
 		return (-1);
 	}
 	ret = printf("\033[%s%sm%s\033[m", color, attrs, msg);
-	free(color);
-	free(attrs);
+	safe_free(color);
+	safe_free(attrs);
 	return (ret);
 }

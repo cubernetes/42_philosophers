@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 23:21:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:58:37 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 06:57:49 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,7 +15,8 @@
 
 /* Helper to parse the trailing portion of a number.
  */
-static void	_parse_tail(
+static
+void	_parse_tail(
 	char const *nptr,
 	int *status
 )
@@ -32,7 +33,8 @@ static void	_parse_tail(
 
 /* Helper to parse a negative number (the - must be already consumed).
  */
-static int	_ft_atoi_status_neg(
+static
+int	_ft_atoi_status_neg(
 	char const *nptr,
 	int *status
 )
@@ -58,7 +60,8 @@ static int	_ft_atoi_status_neg(
 
 /* Helper to parse a positive number (the optional + must be already consumed).
  */
-static int	_ft_atoi_status_pos(
+static
+int	_ft_atoi_status_pos(
 	char const *nptr,
 	int *status
 )

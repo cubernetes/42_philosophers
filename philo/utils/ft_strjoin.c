@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:45:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:58:59 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 06:55:26 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -51,12 +51,12 @@ char	*ft_strjoin_free_1(
 	ft_bzero(joined_str, total_len + 1);
 	if (joined_str == NULL)
 	{
-		free((char *)s1);
+		safe_free((char *)s1);
 		return (NULL);
 	}
 	ft_strlcat(joined_str, s1, total_len + 1);
 	ft_strlcat(joined_str, s2, total_len + 1);
-	free((char *)s1);
+	safe_free((char *)s1);
 	return (joined_str);
 }
 
@@ -75,12 +75,12 @@ char	*ft_strjoin_free_2(
 	joined_str = malloc(sizeof(*joined_str) * (total_len + 1));
 	if (joined_str == NULL)
 	{
-		free((char *)s2);
+		safe_free((char *)s2);
 		return (NULL);
 	}
 	ft_strlcat(joined_str, s1, total_len + 1);
 	ft_strlcat(joined_str, s2, total_len + 1);
-	free((char *)s2);
+	safe_free((char *)s2);
 	return (joined_str);
 }
 
@@ -99,13 +99,13 @@ char	*ft_strjoin_free_12(
 	joined_str = malloc(sizeof(*joined_str) * (total_len + 1));
 	if (joined_str == NULL)
 	{
-		free((char *)s1);
-		free((char *)s2);
+		safe_free((char *)s1);
+		safe_free((char *)s2);
 		return (NULL);
 	}
 	ft_strlcat(joined_str, s1, total_len + 1);
 	ft_strlcat(joined_str, s2, total_len + 1);
-	free((char *)s1);
-	free((char *)s2);
+	safe_free((char *)s1);
+	safe_free((char *)s2);
 	return (joined_str);
 }

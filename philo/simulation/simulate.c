@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:57:52 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 06:54:59 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,9 +16,17 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-/* Join the philosophers threads (so they can be cleaned up later).
+/* Join the philosophers threads (so their memory can be cleaned up properly).
+ *
+ * Every thread either returns NULL (indicating error) or the void-ptr which
+ * has been passed to them (indicating success). If they return NULL
+ * and the simulation has been stopped due to a dead philosopher or due to
+ * all philosophers having eating their min_eat meals, then this is considered
+ * a success instead ("success" as in there was no runtime error, the program
+ * behaved as expected, no failed mallocs, etc.).
  */
-static int	_wait_for_philos(
+static
+int	_wait_for_philos(
 	pthread_t *philo_threads,
 	t_params *params
 )
@@ -28,99 +36,148 @@ static int	_wait_for_philos(
 	void	*ret;
 
 	if (philo_threads == NULL || params == NULL)
+	{
 		return (EXIT_FAILURE);
-	err = 0;
+	}
 	idx = 0;
+	err = FALSE;
 	while (idx < params->num_philos)
 	{
 		err |= pthread_join(philo_threads[idx], &ret) != 0;
-		err |= ret != NULL;
+		err |= ret != NULL && params->stop == FALSE;
 		++idx;
 	}
-	if (err != 0)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-/* Free the memory occupied by the philosopher threads, forks and structs.
- *
- * If params is NULL, philos must be a NULL-terminated array, otherwise
- * the behaviour is undefined.
- *
- * Returns the ptr passed as a parameter (to save lines).
- */
-void	*cleanup_philos(
-	t_philo **philos,
-	t_params *params,
-	void *ptr
-)
-{
-	int	idx;
-	int	check_num;
-
-	if (philos == NULL)
-		return (ptr);
-	check_num = 1;
-	if (params == NULL)
-		check_num = 0;
-	idx = 0;
-	while (*philos != NULL && (check_num == 0 || idx < params->num_philos))
+	if (err == TRUE)
 	{
-		free((*philos)->right_fork);
-		free((*philos));
-		++philos;
-		++idx;
+		return (EXIT_FAILURE);
 	}
-	free(philos);
-	return (ptr);
+	else
+	{
+		return (EXIT_SUCCESS);
+	}
 }
 
-/* Helper function to free up philosopher array, philosopher threads,
- * and to destroy the mutex.
+/* Unlock the synchronization mutex, which should start all the philosopher
+ * threads simultaneously.
  */
-static int	_cleanup_simulation(
+static
+int	_unlock_philosophers(t_params *params)
+{
+	int			exit_status;
+
+	exit_status = EXIT_SUCCESS;
+	params->start_time = get_mtime();
+	if (params->start_time == 0)
+	{
+		params->stop = TRUE;
+		exit_status = EXIT_FAILURE;
+	}
+	if (pthread_mutex_unlock(&params->sync_mtx) != 0)
+	{
+		exit_status = EXIT_FAILURE;
+	}
+	return (exit_status);
+}
+
+/* detect_dead_philosophers.c */
+int		_detect_dead_philosophers(t_philo **philos, t_params *params);
+
+/* cleanup_simulation.c */
+int		_cleanup_simulation(t_philo **philos, t_params *params,
+		pthread_t *philo_threads);
+
+/* - Unlock mutexes (to start philosopher threads synchronized)
+ * - Check indefinitely for dead or finished philosophers
+ * - Await (join) threads to get their return values
+ * - Clean up allocated memory
+ * - Set exit statuses accordingly
+ */
+static
+int	_simulation_epilogue(
 	t_philo **philos,
 	t_params *params,
 	pthread_t *philo_threads
 )
 {
-	(void)cleanup_philos(philos, params, NULL);
-	if (philo_threads != NULL)
-		free(philo_threads);
-	if (pthread_mutex_destroy(&params->log_mtx) != 0)
+	int			exit_status;
+
+	exit_status = EXIT_SUCCESS;
+	if (_unlock_philosophers(params) == EXIT_FAILURE)
+	{
+		exit_status = EXIT_FAILURE;
+	}
+	if (_detect_dead_philosophers(philos, params) == EXIT_FAILURE)
+	{
+		exit_status = EXIT_FAILURE;
+	}
+	if (_wait_for_philos(philo_threads, params) == EXIT_FAILURE)
+	{
+		exit_status = EXIT_FAILURE;
+	}
+	if (_cleanup_simulation(philos, params, philo_threads) == EXIT_FAILURE)
+	{
+		exit_status = EXIT_FAILURE;
+	}
+	return (exit_status);
+}
+
+/* Allocate the thread array for the threads can be awaited.
+ * Also lock the synchronization mutex, so the threads can all be
+ * started at the same time later.
+ */
+static
+int	_prepare_simulation(t_params *params, pthread_t **threads)
+{
+	if (params == NULL)
+	{
 		return (EXIT_FAILURE);
+	}
+	*threads = malloc(sizeof(**threads) * (size_t)params->num_philos);
+	if (*threads == NULL)
+	{
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_lock(&params->sync_mtx) != 0)
+	{
+		safe_free(*threads);
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
 /* spawn_philos.c */
-t_philo	**_spawn_philos(pthread_t *philo_threads, t_params *params);
+t_philo	**_spawn_philosophers(pthread_t *philo_threads, t_params *params);
 
 /* Birds-eye simulation logic:
- * - Spawn philosopher threads
+ * - Lock the synchronization mutex
+ * - Spawn philosopher threads (which wait for the sync-mtx to be unlocked)
+ * - Unlock the synchronization mutex
  * - Wait for philosopher threads to finish
  * - Cleanup everything (also in case of error in between)
  */
+extern
 int	simulate(t_params *params)
 {
 	pthread_t	*philo_threads;
 	t_philo		**philos;
-	int			exit_status;
 
-	if (params == NULL)
+	if (_prepare_simulation(params, &philo_threads) == EXIT_FAILURE)
+	{
 		return (EXIT_FAILURE);
-	exit_status = EXIT_SUCCESS;
-	philo_threads = malloc(sizeof(*philo_threads) * (size_t)params->num_philos);
-	if (philo_threads == NULL)
-		return (EXIT_FAILURE);
-	philos = _spawn_philos(philo_threads, params);
+	}
+	philos = _spawn_philosophers(philo_threads, params);
 	if (philos == NULL)
 	{
+		(void)pthread_mutex_unlock(&params->sync_mtx);
 		(void)_cleanup_simulation(philos, params, philo_threads);
 		return (EXIT_FAILURE);
 	}
-	if (_wait_for_philos(philo_threads, params) == EXIT_FAILURE)
-		exit_status = EXIT_FAILURE;
-	if (_cleanup_simulation(philos, params, philo_threads) == EXIT_FAILURE)
-		exit_status = EXIT_FAILURE;
-	return (exit_status);
+	if (_simulation_epilogue(philos, params, philo_threads) == EXIT_FAILURE)
+	{
+		return (EXIT_FAILURE);
+	}
+	else
+	{
+		return (EXIT_SUCCESS);
+	}
 }

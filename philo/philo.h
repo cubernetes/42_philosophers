@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 20:03:08 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 06:48:09 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -21,21 +21,24 @@
 # include <pthread.h>
 
 /********************************* defines ************************************/
-# define ERR_WRONG_ARGC "FATAL: Wrong number of arguments. Expected 4 or 5."
+# define TRUE 1
+# define FALSE 0
 
-# define ERR_WRONG_ARG_NUM_PHILOS "FATAL: Error in parsing the argument \
+# define ERR_MSG_WRONG_ARGC "FATAL: Wrong number of arguments. Expected 4 or 5."
+
+# define ERR_MSG_WRONG_ARG_NUM_PHILOS "FATAL: Error in parsing the argument \
 specifying the number of philosophers (argument 1, 'NOP')."
 
-# define ERR_WRONG_ARG_TIME_TO_DIE "FATAL: Error in parsing the argument \
+# define ERR_MSG_WRONG_ARG_TIME_TO_DIE "FATAL: Error in parsing the argument \
 specifying the time to die (argument 2, 'TOD')."
 
-# define ERR_WRONG_ARG_TIME_TO_EAT "FATAL: Error in parsing the argument \
+# define ERR_MSG_WRONG_ARG_TIME_TO_EAT "FATAL: Error in parsing the argument \
 specifying the time to eat (argument 3, 'TOE')."
 
-# define ERR_WRONG_ARG_TIME_TO_SLEEP "FATAL: Error in parsing the argument \
+# define ERR_MSG_WRONG_ARG_TIME_TO_SLEEP "FATAL: Error in parsing the argument \
 specifying time to sleep (argument 4, 'TOS')."
 
-# define ERR_WRONG_ARG_MIN_EAT "FATAL: Error in parsing the argument \
+# define ERR_MSG_WRONG_ARG_MIN_EAT "FATAL: Error in parsing the argument \
 specifying the minimum number of meals required per philosopher \
 to end the simulation (argument 5, 'ME')."
 
@@ -43,6 +46,8 @@ to end the simulation (argument 5, 'ME')."
 # define PHILO_THINKING_MSG "is thinking"
 # define PHILO_EATING_MSG   "is eating"
 # define PHILO_FORK_MSG     "has taken a fork"
+
+# define ERR_GETTIMEOFDAY 0
 
 /********************************* enums **************************************/
 enum e_ansi
@@ -90,8 +95,11 @@ typedef struct s_params
 	int				time_to_sleep;
 	int				min_eat;
 	time_t			start_time;
-	pthread_mutex_t	log_mtx;
 	int				debug;
+	int				stop;
+	pthread_mutex_t	log_mtx;
+	pthread_mutex_t	sync_mtx;
+	pthread_mutex_t	stop_mtx;
 }	t_params;
 
 typedef struct s_fork
@@ -105,40 +113,42 @@ typedef struct s_philo
 	unsigned int	id;
 	t_fork			*left_fork;
 	t_fork			*right_fork;
-	time_t			last_meal;
 	int				keep_going;
 	t_params		*params;
+	time_t			last_meal;
+	pthread_mutex_t	last_meal_mtx;
 }	t_philo;
 
 /********************************** prototypes ********************************/
-int				init(int argc, char *argv[], char *envp[], t_params *params);
-int				simulate(t_params *params);
-void			*cleanup_philos(t_philo **philos, t_params *params, void *ptr);
+/* simulation */
+extern int				simulate(t_params *params);
+extern int				cleanup_philos(t_philo **philos, t_params *params);
+extern int				sim_has_ended(t_params *params);
 
 /* time */
-int				ft_msleep(int ms);
-time_t			get_mtime(void);
+extern int				ft_msleep(int ms);
+extern time_t			get_mtime(void);
 
 /* logging */
-enum e_log_lvl	set_log_lvl(enum e_log_lvl new_log_lvl);
-enum e_log_lvl	get_log_lvl(void);
-int				logger(const char *msg, enum e_ansi ansi,
-					enum e_log_lvl log_lvl);
-int				logger_nonl(const char *msg, enum e_ansi ansi,
-					enum e_log_lvl log_lvl);
-int				log_fatal(char const *msg);
-int				log_error(char const *msg);
-int				log_warn(char const *msg);
-int				log_info(char const *msg);
-int				log_debug(char const *msg);
-int				log_fatal_nonl(char const *msg);
-int				log_error_nonl(char const *msg);
-int				log_warn_nonl(char const *msg);
-int				log_info_nonl(char const *msg);
-int				log_debug_nonl(char const *msg);
-int				log_philo(enum e_philo_log log, t_philo *philo);
+extern enum e_log_lvl	set_log_lvl(enum e_log_lvl new_log_lvl);
+extern enum e_log_lvl	get_log_lvl(void);
+extern int				logger(const char *msg, enum e_ansi ansi,
+							enum e_log_lvl log_lvl);
+extern int				logger_nonl(const char *msg, enum e_ansi ansi,
+							enum e_log_lvl log_lvl);
+extern int				log_fatal(char const *msg);
+extern int				log_error(char const *msg);
+extern int				log_warn(char const *msg);
+extern int				log_info(char const *msg);
+extern int				log_debug(char const *msg);
+extern int				log_fatal_nonl(char const *msg);
+extern int				log_error_nonl(char const *msg);
+extern int				log_warn_nonl(char const *msg);
+extern int				log_info_nonl(char const *msg);
+extern int				log_debug_nonl(char const *msg);
+extern int				log_philo(enum e_philo_log log, t_philo *philo);
 
 /* misc */
-int				print_usage(char *argv[]);
+extern int				print_usage(char *argv[]);
 
 #endif /* philo.h */

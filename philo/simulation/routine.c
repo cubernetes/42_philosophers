@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:07:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:57:46 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 06:57:36 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,6 +15,7 @@
 
 #include <pthread.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 /* fork_logic.c */
 int	_pickup_forks(t_philo *philo);
@@ -27,7 +28,8 @@ int	_putdown_forks(t_philo *philo);
  * If time-to-die is reached inside this function, it will be logged and
  * now further diagnostic messages ought to be printed.
  */
-static int	_sleep(t_philo *philo)
+static
+int	_sleep(t_philo *philo)
 {
 	if (philo == NULL)
 		return (EXIT_FAILURE);
@@ -52,7 +54,8 @@ static int	_sleep(t_philo *philo)
  * If time-to-die is reached inside this function, it will be logged and
  * now further diagnostic messages ought to be printed.
  */
-static int	_eat(t_philo *philo)
+static
+int	_eat(t_philo *philo)
 {
 	if (philo == NULL)
 		return (EXIT_FAILURE);
@@ -61,19 +64,53 @@ static int	_eat(t_philo *philo)
 	if (_pickup_forks(philo) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (log_philo(PHILO_EATING, philo) == EXIT_FAILURE)
+	{
+		(void)_putdown_forks(philo);
 		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_lock(&philo->last_meal_mtx) != 0)
+	{
+		(void)_putdown_forks(philo);
+		return (EXIT_FAILURE);
+	}
+	philo->last_meal = get_mtime();
+	if (pthread_mutex_unlock(&philo->last_meal_mtx) != 0
+		|| philo->last_meal == 0)
+	{
+		(void)_putdown_forks(philo);
+		return (EXIT_FAILURE);
+	}
 	if (ft_msleep(philo->params->time_to_eat) == EXIT_FAILURE)
+	{
+		(void)_putdown_forks(philo);
 		return (EXIT_FAILURE);
+	}
 	if (_putdown_forks(philo) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
 /* Main philosopher routine: eat, think, sleep, repeat, die.
+ *
+ * Do not start until synchronization mutex has been unlocked.
+ * This means the main thread can take all the time to create the philo-threads.
  */
-int	*routine(void *philo)
+void	*routine(void *_philo)
 {
-	if (philo == NULL)
+	t_philo	*philo;
+
+	if (_philo == NULL)
+		return (NULL);
+	philo = _philo;
+	if (pthread_mutex_lock(&philo->params->sync_mtx) != 0)
+		return (NULL);
+	if (pthread_mutex_unlock(&philo->params->sync_mtx) != 0)
+		return (NULL);
+	if (pthread_mutex_lock(&philo->last_meal_mtx) != 0)
+		return (NULL);
+	philo->last_meal = get_mtime();
+	if (pthread_mutex_unlock(&philo->last_meal_mtx) != 0
+		|| philo->last_meal == 0)
 		return (NULL);
 	while (1)
 	{

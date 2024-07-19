@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:44:00 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:41:39 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/19 05:10:14 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -26,7 +26,9 @@ int	ft_strncmp(
 	unsigned char	*us2;
 
 	if (len == 0)
+	{
 		return (0);
+	}
 	us1 = (unsigned char *)s1;
 	us2 = (unsigned char *)s2;
 	while (*us1 != '\0' && *us2 != '\0' && *us1 == *us2 && --len)
@@ -35,7 +37,8 @@ int	ft_strncmp(
 		us2++;
 	}
 	if (*us1 != *us2)
-		return ((*us1 - *us2 != 0)
-			* (-2 * (*us1 - *us2 < 0) + 1));
+	{
+		return ((*us1 - *us2 != 0) * (-2 * (*us1 - *us2 < 0) + 1));
+	}
 	return (0);
 }
