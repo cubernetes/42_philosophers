@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:07:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 00:09:22 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 00:22:03 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -17,10 +17,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-/* fork_logic.c */
-int	_pickup_forks(t_philo *philo);
-int	_putdown_forks(t_philo *philo);
-
 /* this is the "idle work" function, where the thread just idly sits and
  * does not need any of the mutually exclusive resources, thereby allowing
  * other threads to use them (forks/chopsticks in our case).
@@ -28,8 +24,7 @@ int	_putdown_forks(t_philo *philo);
  * If time-to-die is reached inside this function, it will be logged and
  * now further diagnostic messages ought to be printed.
  */
-static
-int	_sleep(t_philo *philo)
+static int	_sleep(t_philo *philo)
 {
 	if (philo == NULL)
 		return (EXIT_FAILURE);
@@ -54,8 +49,7 @@ int	_sleep(t_philo *philo)
  * If time-to-die is reached inside this function, it will be logged and
  * now further diagnostic messages ought to be printed.
  */
-static
-int	_eat(t_philo *philo)
+static int	_eat(t_philo *philo)
 {
 	if (philo == NULL)
 		return (EXIT_FAILURE);

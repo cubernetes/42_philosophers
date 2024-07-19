@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 03:06:58 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 00:04:18 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 00:22:49 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -74,9 +74,15 @@ int	_pickup_forks(t_philo *philo)
 	if (philo == NULL)
 		return (EXIT_FAILURE);
 	if (philo->id % 2 == 1)
-		_pickup_right_fork_first(philo);
+	{
+		if (_pickup_right_fork_first(philo))
+			return (EXIT_FAILURE);
+	}
 	else
-		_pickup_left_fork_first(philo);
+	{
+		if (_pickup_left_fork_first(philo))
+			return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 

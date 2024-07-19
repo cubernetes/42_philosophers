@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 23:45:01 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 00:20:21 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -181,5 +181,9 @@ int				_detect_dead_philosophers(t_philo **philos, t_params *params);
 /* cleanup_simulation.c */
 int				_cleanup_simulation(t_philo **philos, t_params *params,
 					pthread_t *philo_threads);
+
+/* fork_logic.c */
+int				_pickup_forks(t_philo *philo);
+int				_putdown_forks(t_philo *philo);
 
 #endif /* philo.h */
