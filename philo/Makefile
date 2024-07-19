@@ -6,7 +6,7 @@
 #    By: tosuman <timo42@proton.me>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/15 20:33:50 by tosuman           #+#    #+#              #
-#    Updated: 2024/07/19 23:16:20 by tischmid         ###   ########.fr        #
+#    Updated: 2024/07/19 23:46:10 by tischmid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # ex: set ts=4 sw=4 ft=make noet #
@@ -41,7 +41,6 @@ SRC :=
 SRC += philo.c
 SRC += usage.c
 SRC += ft_time.c
-SRC += err.c
 
 vpath %.c	simulation
 

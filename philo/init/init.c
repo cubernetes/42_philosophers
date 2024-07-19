@@ -6,12 +6,15 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:46:07 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 23:37:52 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:54:24 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
 
 #include "philo.h"
+
+#include <pthread.h>
+#include <stdlib.h>
 
 /* Check that program was called with the required number of parameters.
  */
@@ -20,9 +23,9 @@ static int	_validate_argc(int argc)
 	if (argc != 5 && argc != 6)
 	{
 		(void)log_fatal(ERR_MSG_WRONG_ARGC);
-		return (1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /* Parse each parameter individually and initialize simulation parameters.
@@ -31,16 +34,14 @@ static int	_validate_argc(int argc)
  */
 static int	_parse_argv(char *argv[], t_params *params)
 {
-	t_err	err;
-
-	err_wrap_init(&err);
-	wrap_err(&err, argv == NULL);
-	wrap_err(&err, !err.err && _parse_num_philos_arg(argv[1], params));
-	wrap_err(&err, !err.err && _parse_time_to_die_arg(argv[2], params));
-	wrap_err(&err, !err.err && _parse_time_to_eat_arg(argv[3], params));
-	wrap_err(&err, !err.err && _parse_time_to_sleep_arg(argv[4], params));
-	wrap_err(&err, !err.err && _parse_min_eat_arg(argv[5], params));
-	return (err.err);
+	if (argv == NULL
+		|| _parse_num_philos_arg(argv[1], params)
+		|| _parse_time_to_die_arg(argv[2], params)
+		|| _parse_time_to_eat_arg(argv[3], params)
+		|| _parse_time_to_sleep_arg(argv[4], params)
+		|| _parse_min_eat_arg(argv[5], params))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 /* Initialize the mutexes for logging, initial thread
@@ -49,27 +50,33 @@ static int	_parse_argv(char *argv[], t_params *params)
  */
 static int	_init_mutexes(t_params *params)
 {
-	t_err	err;
-
-	err_wrap_init(&err);
-	wrap_err(&err, pthread_mutex_init(&params->log_mtx, NULL));
-	wrap_err(&err, !err.err && pthread_mutex_init(&params->sync_mtx, NULL));
-	wrap_err(&err, !err.err && pthread_mutex_init(&params->stop_mtx, NULL));
-	return (err.err);
+	if (pthread_mutex_init(&params->log_mtx, NULL))
+		return (EXIT_FAILURE);
+	if (pthread_mutex_init(&params->sync_mtx, NULL))
+	{
+		pthread_mutex_destroy(&params->log_mtx);
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&params->stop_mtx, NULL))
+	{
+		pthread_mutex_destroy(&params->log_mtx);
+		pthread_mutex_destroy(&params->sync_mtx);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 /* Set loglevel and validate & initalize simulation parameters.
  */
 int	init(int argc, char *argv[], char *envp[], t_params *params)
 {
-	t_err	err;
-
-	err_wrap_init(&err);
-	wrap_err(&err, argv == NULL || params == NULL);
-	wrap_err(&err, !err.err && _init_params_from_env(envp, params));
-	wrap_err(&err, !err.err && _validate_argc(argc));
-	wrap_err(&err, !err.err && _parse_argv(argv, params));
-	wrap_err(&err, !err.err && _init_mutexes(params));
+	if (argv == NULL
+		|| params == NULL
+		|| _init_params_from_env(envp, params)
+		|| _validate_argc(argc)
+		|| _parse_argv(argv, params)
+		|| _init_mutexes(params))
+		return (EXIT_FAILURE);
 	params->stop = FALSE;
-	return (err.err);
+	return (EXIT_SUCCESS);
 }

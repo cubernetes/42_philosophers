@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:40:16 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 23:29:52 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:54:03 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -31,7 +31,7 @@ static int	_set_log_lvl_from_str(char const *s)
 		(void)set_log_lvl(DEBUG);
 	else
 		(void)set_log_lvl(INFO);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /* Read the LOGLEVEL environment variable and set the loglevel accordingly.
@@ -49,7 +49,7 @@ static int	_init_log_lvl(char *envp[])
 		return (_set_log_lvl_from_str(*envp));
 	}
 	(void)set_log_lvl(INFO);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /* Read the DEBUG environment variable and set the debug flag accordingly.
@@ -72,20 +72,17 @@ static int	_init_debug(char *envp[], t_params *params)
 		{
 			params->debug = FALSE;
 		}
-		return (0);
+		return (EXIT_SUCCESS);
 	}
 	params->debug = FALSE;
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /* Initialize parameters than can be set from the environment.
  */
 int	_init_params_from_env(char *envp[], t_params *params)
 {
-	t_err	err;
-
-	err_wrap_init(&err);
-	wrap_err(&err, !err.err && _init_debug(envp, params));
-	wrap_err(&err, !err.err && _init_log_lvl(envp));
-	return (err.err);
+	if (_init_debug(envp, params) || _init_log_lvl(envp))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

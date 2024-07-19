@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 03:06:58 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 07:04:53 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 00:04:18 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,8 +15,48 @@
 
 #include <stdlib.h>
 
+static int	_pickup_right_fork_first(t_philo *philo)
+{
+	if (pthread_mutex_lock(&philo->right_fork->mutex))
+		return (EXIT_FAILURE);
+	if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
+	{
+		(void)pthread_mutex_unlock(&philo->right_fork->mutex);
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_lock(&philo->left_fork->mutex))
+		return (EXIT_FAILURE);
+	if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
+	{
+		(void)pthread_mutex_unlock(&philo->left_fork->mutex);
+		(void)pthread_mutex_unlock(&philo->right_fork->mutex);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+static int	_pickup_left_fork_first(t_philo *philo)
+{
+	if (pthread_mutex_lock(&philo->left_fork->mutex))
+		return (EXIT_FAILURE);
+	if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
+	{
+		(void)pthread_mutex_unlock(&philo->left_fork->mutex);
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_lock(&philo->right_fork->mutex))
+		return (EXIT_FAILURE);
+	if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
+	{
+		(void)pthread_mutex_unlock(&philo->right_fork->mutex);
+		(void)pthread_mutex_unlock(&philo->left_fork->mutex);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
 /* Philosophers are sitting around a round table with sequential integer
- * identifiers. If the identifier is ODD (id % 2 != 0, the first branch),
+ * identifiers. If the identifier is ODD (id % 2, the first branch),
  * then a mutex ought to be locked FIRST for the right fork, THEN for the left
  * fork. If the identifier is EVEN (id % 2 == 0, the second branch), then
  * the order of locking ought to be REVERSED.
@@ -32,53 +72,11 @@
 int	_pickup_forks(t_philo *philo)
 {
 	if (philo == NULL)
-	{
 		return (EXIT_FAILURE);
-	}
 	if (philo->id % 2 == 1)
-	{
-		if (pthread_mutex_lock(&philo->right_fork->mutex) != 0)
-		{
-			return (EXIT_FAILURE);
-		}
-		if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
-		{
-			(void)pthread_mutex_unlock(&philo->right_fork->mutex);
-			return (EXIT_FAILURE);
-		}
-		if (pthread_mutex_lock(&philo->left_fork->mutex) != 0)
-		{
-			return (EXIT_FAILURE);
-		}
-		if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
-		{
-			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
-			(void)pthread_mutex_unlock(&philo->right_fork->mutex);
-			return (EXIT_FAILURE);
-		}
-	}
+		_pickup_right_fork_first(philo);
 	else
-	{
-		if (pthread_mutex_lock(&philo->left_fork->mutex) != 0)
-		{
-			return (EXIT_FAILURE);
-		}
-		if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
-		{
-			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
-			return (EXIT_FAILURE);
-		}
-		if (pthread_mutex_lock(&philo->right_fork->mutex) != 0)
-		{
-			return (EXIT_FAILURE);
-		}
-		if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
-		{
-			(void)pthread_mutex_unlock(&philo->right_fork->mutex);
-			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
-			return (EXIT_FAILURE);
-		}
-	}
+		_pickup_left_fork_first(philo);
 	return (EXIT_SUCCESS);
 }
 
@@ -88,30 +86,26 @@ int	_pickup_forks(t_philo *philo)
 int	_putdown_forks(t_philo *philo)
 {
 	if (philo == NULL)
-	{
 		return (EXIT_FAILURE);
-	}
 	if (philo->id % 2 == 1)
 	{
-		if (pthread_mutex_unlock(&philo->left_fork->mutex) != 0)
+		if (pthread_mutex_unlock(&philo->left_fork->mutex))
 		{
+			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
 			return (EXIT_FAILURE);
 		}
-		if (pthread_mutex_unlock(&philo->right_fork->mutex) != 0)
-		{
+		if (pthread_mutex_unlock(&philo->right_fork->mutex))
 			return (EXIT_FAILURE);
-		}
 	}
 	else
 	{
-		if (pthread_mutex_unlock(&philo->right_fork->mutex) != 0)
+		if (pthread_mutex_unlock(&philo->right_fork->mutex))
 		{
+			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
 			return (EXIT_FAILURE);
 		}
-		if (pthread_mutex_unlock(&philo->left_fork->mutex) != 0)
-		{
+		if (pthread_mutex_unlock(&philo->left_fork->mutex))
 			return (EXIT_FAILURE);
-		}
 	}
 	return (EXIT_SUCCESS);
 }

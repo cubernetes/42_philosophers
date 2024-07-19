@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 06:15:16 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/19 23:33:17 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 00:01:07 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,8 @@
  * free destroys the mutexes, frees the forks, the philosopher, and then
  * finally the array itself.
  */
-static
-int	_free_philos_memory(
-	t_philo **philos,
-	t_params *params,
-	int check_num
-)
+static int	_free_philos_memory(t_philo **philos, t_params *params,
+	int check_num)
 {
 	int	idx;
 	int	err;
@@ -57,11 +53,7 @@ int	_free_philos_memory(
  *
  * Returns the ptr passed as a parameter (to save lines).
  */
-extern
-int	cleanup_philos(
-	t_philo **philos,
-	t_params *params
-)
+int	cleanup_philos(t_philo **philos, t_params *params)
 {
 	int	check_num;
 

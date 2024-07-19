@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 23:44:48 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:58:19 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -112,31 +112,16 @@ static int	_simulation_epilogue(t_philo **philos, t_params *params,
 static int	_prepare_simulation(t_params *params, pthread_t **threads)
 {
 	if (params == NULL)
-	{
 		return (EXIT_FAILURE);
-	}
 	*threads = malloc(sizeof(**threads) * (size_t)params->num_philos);
 	if (*threads == NULL)
-	{
 		return (EXIT_FAILURE);
-	}
-	if (pthread_mutex_lock(&params->sync_mtx) != 0)
+	if (pthread_mutex_lock(&params->sync_mtx))
 	{
 		safe_free(*threads);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
-}
-
-static int	_simulate_err(t_err *err, t_philo **philos, t_params *params,
-	pthread_t *philo_threads)
-{
-	if (err->err & (1 << 1))
-	{
-		(void)pthread_mutex_unlock(&params->sync_mtx);
-		(void)_cleanup_simulation(philos, params, philo_threads);
-	}
-	return (err->err);
 }
 
 /* Birds-eye simulation logic:
@@ -150,13 +135,17 @@ int	simulate(t_params *params)
 {
 	pthread_t	*philo_threads;
 	t_philo		**philos;
-	t_err		err;
 
-	err_wrap_init(&err);
-	wrap_err(&err, _prepare_simulation(params, &philo_threads));
-	wrap_assign(!err.err && (philos = _spawn_philos(philo_threads, params)));
-	wrap_err(&err, !err.err && philos == NULL);
-	wrap_err(&err, !err.err && _simulation_epilogue(philos, params,
-			philo_threads) == EXIT_FAILURE);
-	return (_simulate_err(&err, philos, params, philo_threads));
+	if (_prepare_simulation(params, &philo_threads))
+		return (EXIT_FAILURE);
+	philos = _spawn_philos(philo_threads, params);
+	if (philos == NULL)
+	{
+		(void)pthread_mutex_unlock(&params->sync_mtx);
+		(void)_cleanup_simulation(philos, params, philo_threads);
+		return (EXIT_FAILURE);
+	}
+	if (_simulation_epilogue(philos, params, philo_threads))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
