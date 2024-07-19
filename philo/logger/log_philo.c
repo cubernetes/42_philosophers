@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:48:02 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 06:57:17 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 07:03:07 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -22,14 +22,25 @@ static
 enum e_ansi	_get_philo_log_clr(enum e_philo_log log)
 {
 	if (log == PHILO_SLEEPING)
+	{
 		return (BLUE);
+	}
 	else if (log == PHILO_THINKING)
+	{
 		return (GREEN);
+	}
 	else if (log == PHILO_EATING)
+	{
 		return (MAGENTA);
+	}
 	else if (log == PHILO_FORK)
+	{
 		return (ORANGE);
-	return (RED | INVERT);
+	}
+	else
+	{
+		return (RED | INVERT);
+	}
 }
 
 /* Return the message string corresponding to the given diagnostic type
@@ -39,14 +50,25 @@ static
 char	*_get_philo_log_msg(enum e_philo_log log)
 {
 	if (log == PHILO_SLEEPING)
+	{
 		return (PHILO_SLEEPING_MSG);
+	}
 	else if (log == PHILO_THINKING)
+	{
 		return (PHILO_THINKING_MSG);
+	}
 	else if (log == PHILO_EATING)
+	{
 		return (PHILO_EATING_MSG);
+	}
 	else if (log == PHILO_FORK)
+	{
 		return (PHILO_FORK_MSG);
-	return ("has done something extraordinary...");
+	}
+	else
+	{
+		return ("has done something extraordinary...");
+	}
 }
 
 /* Helper to free the offset and id strings. Returns with the exit_status
@@ -60,9 +82,13 @@ int	_free_offset_id(
 )
 {
 	if (offset != NULL)
+	{
 		safe_free(offset);
+	}
 	if (id != NULL)
+	{
 		safe_free(id);
+	}
 	return (exit_status);
 }
 
@@ -130,26 +156,40 @@ int	log_philo(
 	enum e_ansi	log_lvl;
 
 	if (sim_has_ended(philo->params) != 0 || philo == NULL)
+	{
 		return (EXIT_FAILURE);
+	}
 	if (philo->params->debug)
+	{
 		log_lvl = _get_philo_log_clr(log) | BOLD;
+	}
 	else
+	{
 		log_lvl = NO_CLR;
+	}
 	now = get_mtime();
 	if (now == 0)
+	{
 		return (EXIT_FAILURE);
+	}
 	offset = ft_itoa((int)(now - philo->params->start_time));
 	if (offset == NULL)
+	{
 		return (EXIT_FAILURE);
+	}
 	id = ft_itoa((int)philo->id + 1);
 	if (_start_log_entry(philo, offset, id, log_lvl) == EXIT_FAILURE)
+	{
 		return (_free_offset_id(offset, id, EXIT_FAILURE));
+	}
 	if (logger(_get_philo_log_msg(log), log_lvl, INFO) < 0)
 	{
 		(void)pthread_mutex_unlock(&philo->params->log_mtx);
 		return (_free_offset_id(offset, id, EXIT_FAILURE));
 	}
 	if (pthread_mutex_unlock(&philo->params->log_mtx) != 0)
+	{
 		return (_free_offset_id(offset, id, EXIT_FAILURE));
+	}
 	return (_free_offset_id(offset, id, EXIT_SUCCESS));
 }

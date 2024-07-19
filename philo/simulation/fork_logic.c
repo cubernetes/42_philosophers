@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 03:06:58 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 04:25:47 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 07:04:53 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -32,18 +32,24 @@
 int	_pickup_forks(t_philo *philo)
 {
 	if (philo == NULL)
+	{
 		return (EXIT_FAILURE);
+	}
 	if (philo->id % 2 == 1)
 	{
 		if (pthread_mutex_lock(&philo->right_fork->mutex) != 0)
+		{
 			return (EXIT_FAILURE);
+		}
 		if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
 		{
 			(void)pthread_mutex_unlock(&philo->right_fork->mutex);
 			return (EXIT_FAILURE);
 		}
 		if (pthread_mutex_lock(&philo->left_fork->mutex) != 0)
+		{
 			return (EXIT_FAILURE);
+		}
 		if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
 		{
 			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
@@ -54,14 +60,18 @@ int	_pickup_forks(t_philo *philo)
 	else
 	{
 		if (pthread_mutex_lock(&philo->left_fork->mutex) != 0)
+		{
 			return (EXIT_FAILURE);
+		}
 		if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
 		{
 			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
 			return (EXIT_FAILURE);
 		}
 		if (pthread_mutex_lock(&philo->right_fork->mutex) != 0)
+		{
 			return (EXIT_FAILURE);
+		}
 		if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
 		{
 			(void)pthread_mutex_unlock(&philo->right_fork->mutex);
@@ -78,20 +88,30 @@ int	_pickup_forks(t_philo *philo)
 int	_putdown_forks(t_philo *philo)
 {
 	if (philo == NULL)
+	{
 		return (EXIT_FAILURE);
+	}
 	if (philo->id % 2 == 1)
 	{
 		if (pthread_mutex_unlock(&philo->left_fork->mutex) != 0)
+		{
 			return (EXIT_FAILURE);
+		}
 		if (pthread_mutex_unlock(&philo->right_fork->mutex) != 0)
+		{
 			return (EXIT_FAILURE);
+		}
 	}
 	else
 	{
 		if (pthread_mutex_unlock(&philo->right_fork->mutex) != 0)
+		{
 			return (EXIT_FAILURE);
+		}
 		if (pthread_mutex_unlock(&philo->left_fork->mutex) != 0)
+		{
 			return (EXIT_FAILURE);
+		}
 	}
 	return (EXIT_SUCCESS);
 }

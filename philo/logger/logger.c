@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:49:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 06:56:54 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 07:03:33 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -25,9 +25,13 @@ char	*_build_color(enum e_ansi ansi)
 	char	*color;
 
 	if ((ansi & 7) != 0)
+	{
 		color = ft_itoa(30 + (ansi & 7));
+	}
 	else
+	{
 		color = ft_itoa(90);
+	}
 	return (color);
 }
 
@@ -42,19 +46,31 @@ char	*_build_attrs(enum e_ansi ansi)
 
 	attrs = ft_strdup("");
 	if (attrs == NULL)
+	{
 		return (NULL);
+	}
 	ansi_code = "";
 	if (ansi & BOLD)
+	{
 		ansi_code = ";1";
+	}
 	if (ansi & ITALIC)
+	{
 		ansi_code = ";3";
+	}
 	if (ansi & UNDERLINE)
+	{
 		ansi_code = ";4";
+	}
 	if (ansi & INVERT)
+	{
 		ansi_code = ";7";
+	}
 	attrs = ft_strjoin_free_1(attrs, ansi_code);
 	if (attrs == NULL)
+	{
 		return (NULL);
+	}
 	return (attrs);
 }
 
@@ -71,12 +87,18 @@ int	logger(
 	char	*attrs;
 
 	if (get_log_lvl() > log_lvl)
+	{
 		return (0);
+	}
 	if (ansi == NO_CLR)
+	{
 		return (printf("%s\n", msg));
+	}
 	color = _build_color(ansi);
 	if (color == NULL)
+	{
 		return (-1);
+	}
 	attrs = _build_attrs(ansi);
 	if (attrs == NULL)
 	{
@@ -103,12 +125,18 @@ int	logger_nonl(
 	char	*attrs;
 
 	if (get_log_lvl() > log_lvl)
+	{
 		return (0);
+	}
 	if (ansi == NO_CLR)
+	{
 		return (printf("%s", msg));
+	}
 	color = _build_color(ansi);
 	if (color == NULL)
+	{
 		return (-1);
+	}
 	attrs = _build_attrs(ansi);
 	if (attrs == NULL)
 	{

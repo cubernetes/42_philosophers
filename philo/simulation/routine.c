@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:07:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 06:57:36 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 07:02:11 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -32,11 +32,17 @@ static
 int	_sleep(t_philo *philo)
 {
 	if (philo == NULL)
+	{
 		return (EXIT_FAILURE);
+	}
 	if (log_philo(PHILO_SLEEPING, philo) == EXIT_FAILURE)
+	{
 		return (EXIT_FAILURE);
+	}
 	if (ft_msleep(philo->params->time_to_sleep) == EXIT_FAILURE)
+	{
 		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -58,11 +64,17 @@ static
 int	_eat(t_philo *philo)
 {
 	if (philo == NULL)
+	{
 		return (EXIT_FAILURE);
+	}
 	if (log_philo(PHILO_THINKING, philo) == EXIT_FAILURE)
+	{
 		return (EXIT_FAILURE);
+	}
 	if (_pickup_forks(philo) == EXIT_FAILURE)
+	{
 		return (EXIT_FAILURE);
+	}
 	if (log_philo(PHILO_EATING, philo) == EXIT_FAILURE)
 	{
 		(void)_putdown_forks(philo);
@@ -86,7 +98,9 @@ int	_eat(t_philo *philo)
 		return (EXIT_FAILURE);
 	}
 	if (_putdown_forks(philo) == EXIT_FAILURE)
+	{
 		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -103,21 +117,33 @@ void	*routine(void *_philo)
 		return (NULL);
 	philo = _philo;
 	if (pthread_mutex_lock(&philo->params->sync_mtx) != 0)
+	{
 		return (NULL);
+	}
 	if (pthread_mutex_unlock(&philo->params->sync_mtx) != 0)
+	{
 		return (NULL);
+	}
 	if (pthread_mutex_lock(&philo->last_meal_mtx) != 0)
+	{
 		return (NULL);
+	}
 	philo->last_meal = get_mtime();
 	if (pthread_mutex_unlock(&philo->last_meal_mtx) != 0
 		|| philo->last_meal == 0)
+	{
 		return (NULL);
+	}
 	while (1)
 	{
 		if (_eat(philo) == EXIT_FAILURE)
+		{
 			return (NULL);
+		}
 		if (_sleep(philo) == EXIT_FAILURE)
+		{
 			return (NULL);
+		}
 	}
 	return (philo);
 }
