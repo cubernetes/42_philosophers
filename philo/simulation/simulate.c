@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 06:54:59 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:44:48 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -25,11 +25,7 @@
  * a success instead ("success" as in there was no runtime error, the program
  * behaved as expected, no failed mallocs, etc.).
  */
-static
-int	_wait_for_philos(
-	pthread_t *philo_threads,
-	t_params *params
-)
+static int	_wait_for_philos(pthread_t *philo_threads, t_params *params)
 {
 	int		idx;
 	int		err;
@@ -47,7 +43,7 @@ int	_wait_for_philos(
 		err |= ret != NULL && params->stop == FALSE;
 		++idx;
 	}
-	if (err == TRUE)
+	if (err)
 	{
 		return (EXIT_FAILURE);
 	}
@@ -60,8 +56,7 @@ int	_wait_for_philos(
 /* Unlock the synchronization mutex, which should start all the philosopher
  * threads simultaneously.
  */
-static
-int	_unlock_philosophers(t_params *params)
+static int	_unlock_philosophers(t_params *params)
 {
 	int			exit_status;
 
@@ -79,25 +74,14 @@ int	_unlock_philosophers(t_params *params)
 	return (exit_status);
 }
 
-/* detect_dead_philosophers.c */
-int		_detect_dead_philosophers(t_philo **philos, t_params *params);
-
-/* cleanup_simulation.c */
-int		_cleanup_simulation(t_philo **philos, t_params *params,
-		pthread_t *philo_threads);
-
 /* - Unlock mutexes (to start philosopher threads synchronized)
  * - Check indefinitely for dead or finished philosophers
  * - Await (join) threads to get their return values
  * - Clean up allocated memory
  * - Set exit statuses accordingly
  */
-static
-int	_simulation_epilogue(
-	t_philo **philos,
-	t_params *params,
-	pthread_t *philo_threads
-)
+static int	_simulation_epilogue(t_philo **philos, t_params *params,
+	pthread_t *philo_threads)
 {
 	int			exit_status;
 
@@ -125,8 +109,7 @@ int	_simulation_epilogue(
  * Also lock the synchronization mutex, so the threads can all be
  * started at the same time later.
  */
-static
-int	_prepare_simulation(t_params *params, pthread_t **threads)
+static int	_prepare_simulation(t_params *params, pthread_t **threads)
 {
 	if (params == NULL)
 	{
@@ -145,8 +128,16 @@ int	_prepare_simulation(t_params *params, pthread_t **threads)
 	return (EXIT_SUCCESS);
 }
 
-/* spawn_philos.c */
-t_philo	**_spawn_philosophers(pthread_t *philo_threads, t_params *params);
+static int	_simulate_err(t_err *err, t_philo **philos, t_params *params,
+	pthread_t *philo_threads)
+{
+	if (err->err & (1 << 1))
+	{
+		(void)pthread_mutex_unlock(&params->sync_mtx);
+		(void)_cleanup_simulation(philos, params, philo_threads);
+	}
+	return (err->err);
+}
 
 /* Birds-eye simulation logic:
  * - Lock the synchronization mutex
@@ -155,29 +146,17 @@ t_philo	**_spawn_philosophers(pthread_t *philo_threads, t_params *params);
  * - Wait for philosopher threads to finish
  * - Cleanup everything (also in case of error in between)
  */
-extern
 int	simulate(t_params *params)
 {
 	pthread_t	*philo_threads;
 	t_philo		**philos;
+	t_err		err;
 
-	if (_prepare_simulation(params, &philo_threads) == EXIT_FAILURE)
-	{
-		return (EXIT_FAILURE);
-	}
-	philos = _spawn_philosophers(philo_threads, params);
-	if (philos == NULL)
-	{
-		(void)pthread_mutex_unlock(&params->sync_mtx);
-		(void)_cleanup_simulation(philos, params, philo_threads);
-		return (EXIT_FAILURE);
-	}
-	if (_simulation_epilogue(philos, params, philo_threads) == EXIT_FAILURE)
-	{
-		return (EXIT_FAILURE);
-	}
-	else
-	{
-		return (EXIT_SUCCESS);
-	}
+	err_wrap_init(&err);
+	wrap_err(&err, _prepare_simulation(params, &philo_threads));
+	wrap_assign(!err.err && (philos = _spawn_philos(philo_threads, params)));
+	wrap_err(&err, !err.err && philos == NULL);
+	wrap_err(&err, !err.err && _simulation_epilogue(philos, params,
+			philo_threads) == EXIT_FAILURE);
+	return (_simulate_err(&err, philos, params, philo_threads));
 }

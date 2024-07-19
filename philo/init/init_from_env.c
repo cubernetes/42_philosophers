@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:40:16 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 06:58:11 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:29:52 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -17,40 +17,26 @@
 
 /* Helper function to set the loglevel from a string.
  */
-static
-int	_set_log_lvl_from_str(char const *s)
+static int	_set_log_lvl_from_str(char const *s)
 {
 	if (ft_strcmp(s, "FATAL") == 0)
-	{
 		(void)set_log_lvl(FATAL);
-	}
 	else if (ft_strcmp(s, "ERROR") == 0)
-	{
 		(void)set_log_lvl(ERROR);
-	}
 	else if (ft_strcmp(s, "WARN") == 0)
-	{
 		(void)set_log_lvl(WARN);
-	}
 	else if (ft_strcmp(s, "INFO") == 0)
-	{
 		(void)set_log_lvl(INFO);
-	}
 	else if (ft_strcmp(s, "DEBUG") == 0)
-	{
 		(void)set_log_lvl(DEBUG);
-	}
 	else
-	{
 		(void)set_log_lvl(INFO);
-	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 /* Read the LOGLEVEL environment variable and set the loglevel accordingly.
  */
-static
-int	_init_log_lvl(char *envp[])
+static int	_init_log_lvl(char *envp[])
 {
 	while (envp != NULL && *envp != NULL)
 	{
@@ -60,26 +46,15 @@ int	_init_log_lvl(char *envp[])
 			continue ;
 		}
 		*envp += ft_strlen("LOGLEVEL=");
-		if (_set_log_lvl_from_str(*envp) == EXIT_FAILURE)
-		{
-			return (EXIT_FAILURE);
-		}
-		else
-		{
-			return (EXIT_SUCCESS);
-		}
+		return (_set_log_lvl_from_str(*envp));
 	}
 	(void)set_log_lvl(INFO);
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 /* Read the DEBUG environment variable and set the debug flag accordingly.
  */
-static
-int	_init_debug(
-	char *envp[],
-	t_params *params
-)
+static int	_init_debug(char *envp[], t_params *params)
 {
 	while (envp != NULL && *envp != NULL)
 	{
@@ -97,27 +72,20 @@ int	_init_debug(
 		{
 			params->debug = FALSE;
 		}
-		return (EXIT_SUCCESS);
+		return (0);
 	}
 	params->debug = FALSE;
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 /* Initialize parameters than can be set from the environment.
  */
-extern
-int	_init_params_from_env(
-	char *envp[],
-	t_params *params
-)
+int	_init_params_from_env(char *envp[], t_params *params)
 {
-	if (_init_debug(envp, params) == EXIT_FAILURE)
-	{
-		return (EXIT_FAILURE);
-	}
-	if (_init_log_lvl(envp) == EXIT_FAILURE)
-	{
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+	t_err	err;
+
+	err_wrap_init(&err);
+	wrap_err(&err, !err.err && _init_debug(envp, params));
+	wrap_err(&err, !err.err && _init_log_lvl(envp));
+	return (err.err);
 }

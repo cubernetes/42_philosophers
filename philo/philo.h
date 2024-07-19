@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 06:48:09 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:45:01 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -21,9 +21,6 @@
 # include <pthread.h>
 
 /********************************* defines ************************************/
-# define TRUE 1
-# define FALSE 0
-
 # define ERR_MSG_WRONG_ARGC "FATAL: Wrong number of arguments. Expected 4 or 5."
 
 # define ERR_MSG_WRONG_ARG_NUM_PHILOS "FATAL: Error in parsing the argument \
@@ -119,36 +116,70 @@ typedef struct s_philo
 	pthread_mutex_t	last_meal_mtx;
 }	t_philo;
 
+typedef struct s_err
+{
+	int	err;
+	int	id;
+}	t_err;
+
 /********************************** prototypes ********************************/
 /* simulation */
-extern int				simulate(t_params *params);
-extern int				cleanup_philos(t_philo **philos, t_params *params);
-extern int				sim_has_ended(t_params *params);
+int				simulate(t_params *params);
+int				cleanup_philos(t_philo **philos, t_params *params);
+int				sim_has_ended(t_params *params);
 
-/* time */
-extern int				ft_msleep(int ms);
-extern time_t			get_mtime(void);
+/* ft_time.c */
+int				ft_msleep(int ms);
+time_t			get_mtime(void);
 
-/* logging */
-extern enum e_log_lvl	set_log_lvl(enum e_log_lvl new_log_lvl);
-extern enum e_log_lvl	get_log_lvl(void);
-extern int				logger(const char *msg, enum e_ansi ansi,
-							enum e_log_lvl log_lvl);
-extern int				logger_nonl(const char *msg, enum e_ansi ansi,
-							enum e_log_lvl log_lvl);
-extern int				log_fatal(char const *msg);
-extern int				log_error(char const *msg);
-extern int				log_warn(char const *msg);
-extern int				log_info(char const *msg);
-extern int				log_debug(char const *msg);
-extern int				log_fatal_nonl(char const *msg);
-extern int				log_error_nonl(char const *msg);
-extern int				log_warn_nonl(char const *msg);
-extern int				log_info_nonl(char const *msg);
-extern int				log_debug_nonl(char const *msg);
-extern int				log_philo(enum e_philo_log log, t_philo *philo);
+/* logger.c */
+enum e_log_lvl	set_log_lvl(enum e_log_lvl new_log_lvl);
+enum e_log_lvl	get_log_lvl(void);
+int				logger(const char *msg, enum e_ansi ansi,
+					enum e_log_lvl log_lvl);
+int				logger_nonl(const char *msg, enum e_ansi ansi,
+					enum e_log_lvl log_lvl);
+int				log_fatal(char const *msg);
+int				log_error(char const *msg);
+int				log_warn(char const *msg);
+int				log_info(char const *msg);
+int				log_debug(char const *msg);
+int				log_fatal_nonl(char const *msg);
+int				log_error_nonl(char const *msg);
+int				log_warn_nonl(char const *msg);
+int				log_info_nonl(char const *msg);
+int				log_debug_nonl(char const *msg);
+int				log_philo(enum e_philo_log log, t_philo *philo);
 
-/* misc */
-extern int				print_usage(char *argv[]);
+/* usage.c */
+int				print_usage(char *argv[]);
+
+/* init.c */
+int				init(int argc, char *argv[], char *envp[], t_params *params);
+
+/* err.c */
+void			wrap_err(t_err *err, int ret);
+void			err_wrap_init(t_err *err);
+int				wrap_assign(int ret);
+
+/* argv_checks.c */
+int				_parse_num_philos_arg(char const *arg, t_params *params);
+int				_parse_time_to_die_arg(char const *arg, t_params *params);
+int				_parse_time_to_eat_arg(char const *arg, t_params *params);
+int				_parse_time_to_sleep_arg(char const *arg, t_params *params);
+int				_parse_min_eat_arg(char const *arg, t_params *params);
+
+/* init_from_env.c */
+int				_init_params_from_env(char *envp[], t_params *params);
+
+/* spawn_philos.c */
+t_philo			**_spawn_philos(pthread_t *philo_threads, t_params *params);
+
+/* detect_dead_philosophers.c */
+int				_detect_dead_philosophers(t_philo **philos, t_params *params);
+
+/* cleanup_simulation.c */
+int				_cleanup_simulation(t_philo **philos, t_params *params,
+					pthread_t *philo_threads);
 
 #endif /* philo.h */

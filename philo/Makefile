@@ -6,7 +6,7 @@
 #    By: tosuman <timo42@proton.me>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/15 20:33:50 by tosuman           #+#    #+#              #
-#    Updated: 2024/07/19 06:18:10 by tischmid         ###   ########.fr        #
+#    Updated: 2024/07/19 23:16:20 by tischmid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # ex: set ts=4 sw=4 ft=make noet #
@@ -41,12 +41,13 @@ SRC :=
 SRC += philo.c
 SRC += usage.c
 SRC += ft_time.c
+SRC += err.c
 
 vpath %.c	simulation
 
 SRC += routine.c
 SRC += simulate.c
-SRC += spawn_philosophers.c
+SRC += spawn_philos.c
 SRC += fork_logic.c
 SRC += detect_dead_philosophers.c
 SRC += cleanup_simulation.c

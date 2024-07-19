@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 06:15:16 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/19 06:49:22 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:33:17 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	_free_philos_memory(
 		++idx;
 	}
 	safe_free(philos);
-	if (err == TRUE)
+	if (err)
 	{
 		return (EXIT_FAILURE);
 	}
@@ -108,7 +108,7 @@ int	_cleanup_simulation(
 	err |= pthread_mutex_destroy(&params->log_mtx) != 0;
 	err |= pthread_mutex_destroy(&params->sync_mtx) != 0;
 	err |= pthread_mutex_destroy(&params->stop_mtx) != 0;
-	if (err == TRUE)
+	if (err)
 	{
 		return (EXIT_FAILURE);
 	}

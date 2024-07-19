@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:00:00 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/19 06:05:20 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:31:46 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define UTILS_H	1
 
 # include <stddef.h>
+
+# define TRUE 1
+# define FALSE 0
 
 /* Possible status flag for "a to n" conversions (e.g. atoi, atol, etc.) */
 enum e_aton_status

@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 02:41:02 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/19 21:08:48 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:33:20 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	_check_all_philosophers(
 		{
 			return (EXIT_FAILURE);
 		}
-		if (done == TRUE)
+		if (done)
 		{
 			if (signal_end_of_sim(params) == EXIT_FAILURE)
 			{
