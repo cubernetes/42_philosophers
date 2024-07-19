@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 02:41:02 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/19 23:33:20 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 00:14:21 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ int	_philo_done(t_philo *philo)
 
 	done = FALSE;
 	if (pthread_mutex_lock(&philo->last_meal_mtx) != 0)
-	{
 		return (PHILO_ERROR);
-	}
 	now = (int)get_mtime();
 	if (now == ERR_GETTIMEOFDAY)
 	{
@@ -44,13 +42,8 @@ int	_philo_done(t_philo *philo)
 	}
 	done |= now - (int)philo->last_meal >= philo->params->time_to_die;
 	if (pthread_mutex_unlock(&philo->last_meal_mtx) != 0)
-	{
 		return (PHILO_ERROR);
-	}
-	else
-	{
-		return (done);
-	}
+	return (done);
 }
 /* TODO: Implement min_eat feature */
 
@@ -78,27 +71,19 @@ int	sim_has_ended(t_params *params)
 		return (-1);
 	}
 	else
-	{
 		return (simulation_has_ended);
-	}
 }
 
 static
 int	signal_end_of_sim(t_params *params)
 {
 	if (pthread_mutex_lock(&params->stop_mtx) != 0)
-	{
 		return (EXIT_FAILURE);
-	}
 	params->stop = TRUE;
 	if (pthread_mutex_unlock(&params->stop_mtx) != 0)
-	{
 		return (EXIT_FAILURE);
-	}
 	else
-	{
 		return (EXIT_SUCCESS);
-	}
 }
 
 static
@@ -115,19 +100,13 @@ int	_check_all_philosophers(
 	{
 		done = _philo_done(philos[idx]);
 		if (done == PHILO_ERROR)
-		{
 			return (EXIT_FAILURE);
-		}
 		if (done)
 		{
 			if (signal_end_of_sim(params) == EXIT_FAILURE)
-			{
 				return (EXIT_FAILURE);
-			}
 			else
-			{
 				return (EXIT_SUCCESS);
-			}
 		}
 		++idx;
 	}
@@ -146,20 +125,14 @@ int	_detect_dead_philosophers(
 	int	ret;
 
 	if (philos == NULL || params == NULL)
-	{
 		return (EXIT_FAILURE);
-	}
 	while (TRUE)
 	{
 		ret = _check_all_philosophers(params, philos);
 		if (ret != NOT_DONE)
-		{
 			return (ret);
-		}
 		if (ft_msleep(10) == EXIT_FAILURE)
-		{
 			return (EXIT_FAILURE);
-		}
 	}
 	return (EXIT_SUCCESS);
 }

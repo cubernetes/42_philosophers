@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 23:58:19 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 00:13:55 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -87,21 +87,13 @@ static int	_simulation_epilogue(t_philo **philos, t_params *params,
 
 	exit_status = EXIT_SUCCESS;
 	if (_unlock_philosophers(params) == EXIT_FAILURE)
-	{
 		exit_status = EXIT_FAILURE;
-	}
 	if (_detect_dead_philosophers(philos, params) == EXIT_FAILURE)
-	{
 		exit_status = EXIT_FAILURE;
-	}
 	if (_wait_for_philos(philo_threads, params) == EXIT_FAILURE)
-	{
 		exit_status = EXIT_FAILURE;
-	}
 	if (_cleanup_simulation(philos, params, philo_threads) == EXIT_FAILURE)
-	{
 		exit_status = EXIT_FAILURE;
-	}
 	return (exit_status);
 }
 
