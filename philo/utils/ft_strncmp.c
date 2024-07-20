@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:44:00 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 05:10:14 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:01:01 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,11 +16,7 @@
 /* Compare two string until they differ OR len is reached, at which point
  * the ASCII value difference of the characters will be returned.
  */
-int	ft_strncmp(
-	char const *s1,
-	char const *s2,
-	size_t len
-)
+int	ft_strncmp(char const *s1, char const *s2, size_t len)
 {
 	unsigned char	*us1;
 	unsigned char	*us2;

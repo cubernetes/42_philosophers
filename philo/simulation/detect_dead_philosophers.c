@@ -6,9 +6,10 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 02:41:02 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/20 03:06:42 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:58:06 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/* ex: set ts=4 sw=4 ft=c et */
 
 #include "philo.h"
 #include <pthread.h>
@@ -97,6 +98,8 @@ static int	_check_all_philosophers(t_params *params, t_philo **philos)
 			else
 				return (EXIT_SUCCESS);
 		}
+		else if (philos_not_finished(philos[idx]) == FALSE)
+			return (EXIT_SUCCESS);
 		++idx;
 	}
 	return (NOT_DONE);

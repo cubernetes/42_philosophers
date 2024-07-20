@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:27:25 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 19:03:43 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:00:12 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,10 +16,7 @@
 /* Return a pointer to the first character that equals c in the C-string s,
  * or NULL if c is not in s.
  */
-char	*ft_strchr(
-	const char *s,
-	int c
-)
+char	*ft_strchr(const char *s, int c)
 {
 	while (*s != '\0')
 	{

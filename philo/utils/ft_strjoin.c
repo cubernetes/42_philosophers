@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:45:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 06:55:26 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:00:42 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -18,10 +18,7 @@
 /* Join two C-strings, returning another heap-allocated NUL-terminated string.
  * Not freeing any arguments.
  */
-char	*ft_strjoin(
-	char const *s1,
-	char const *s2
-)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	total_len;
 	char	*joined_str;
@@ -38,10 +35,7 @@ char	*ft_strjoin(
 /* Join two C-strings, returning another heap-allocated NUL-terminated string.
  * Freeing the first argument.
  */
-char	*ft_strjoin_free_1(
-	char const *s1,
-	char const *s2
-)
+char	*ft_strjoin_free_1(char const *s1, char const *s2)
 {
 	size_t	total_len;
 	char	*joined_str;
@@ -63,10 +57,7 @@ char	*ft_strjoin_free_1(
 /* Join two C-strings, returning another heap-allocated NUL-terminated string.
  * Freeing the second argument.
  */
-char	*ft_strjoin_free_2(
-	char const *s1,
-	char const *s2
-)
+char	*ft_strjoin_free_2(char const *s1, char const *s2)
 {
 	size_t	total_len;
 	char	*joined_str;
@@ -87,10 +78,7 @@ char	*ft_strjoin_free_2(
 /* Join two C-strings, returning another heap-allocated NUL-terminated string.
  * Freeing both arguments.
  */
-char	*ft_strjoin_free_12(
-	char const *s1,
-	char const *s2
-)
+char	*ft_strjoin_free_12(char const *s1, char const *s2)
 {
 	size_t	total_len;
 	char	*joined_str;

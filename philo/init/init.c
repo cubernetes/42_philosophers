@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:46:07 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 02:32:57 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:59:40 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -87,7 +87,8 @@ int	init(int argc, char *argv[], char *envp[], t_params *params)
 	params->stop = FALSE;
 	params->finished_philos = params->num_philos;
 	params->time_to_think = 0;
-	if (params->time_to_eat * 2 > params->time_to_sleep && params->num_philos & 1
+	if (params->time_to_eat * 2 > params->time_to_sleep
+		&& params->num_philos & 1
 		&& params->num_philos > 1)
 		params->time_to_think = params->time_to_eat * 2 - params->time_to_sleep;
 	return (EXIT_SUCCESS);

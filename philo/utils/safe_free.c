@@ -6,13 +6,13 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 06:01:42 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/19 06:04:24 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:58:21 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/* ex: set ts=4 sw=4 ft=c et */
 
 #include <stdlib.h>
 
-extern
 void	safe_free(void *ptr)
 {
 	if (ptr != NULL)

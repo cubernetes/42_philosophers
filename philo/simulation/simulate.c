@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 00:13:55 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:53:34 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -40,17 +40,12 @@ static int	_wait_for_philos(pthread_t *philo_threads, t_params *params)
 	while (idx < params->num_philos)
 	{
 		err |= pthread_join(philo_threads[idx], &ret) != 0;
-		err |= ret != NULL && params->stop == FALSE;
+		err |= ret == NULL && params->stop == FALSE;
 		++idx;
 	}
 	if (err)
-	{
 		return (EXIT_FAILURE);
-	}
-	else
-	{
-		return (EXIT_SUCCESS);
-	}
+	return (EXIT_SUCCESS);
 }
 
 /* Unlock the synchronization mutex, which should start all the philosopher
@@ -68,9 +63,7 @@ static int	_unlock_philosophers(t_params *params)
 		exit_status = EXIT_FAILURE;
 	}
 	if (pthread_mutex_unlock(&params->sync_mtx) != 0)
-	{
 		exit_status = EXIT_FAILURE;
-	}
 	return (exit_status);
 }
 

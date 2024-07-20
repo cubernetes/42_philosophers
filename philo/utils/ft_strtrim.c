@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:18:29 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 06:55:37 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:01:22 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -18,10 +18,7 @@
 /* Calculate the size of a C-string after trimming it left and right
  * of the characters in set.
  */
-static	size_t	_size_after_trim(
-	char const *s,
-	char const *set
-)
+static	size_t	_size_after_trim(char const *s, char const *set)
 {
 	int	idx;
 	int	start;
@@ -44,10 +41,7 @@ static	size_t	_size_after_trim(
  * returning the heap-allocated result.
  * Free no arguments.
  */
-char	*ft_strtrim(
-	char const *s,
-	char const *set
-)
+char	*ft_strtrim(char const *s, char const *set)
 {
 	size_t	trimmed_size;
 	char	*trimmed_str;
@@ -68,10 +62,7 @@ char	*ft_strtrim(
  * returning the heap-allocated result.
  * Free the first argument.
  */
-char	*ft_strtrim_free_1(
-	char const *s,
-	char const *set
-)
+char	*ft_strtrim_free_1(char const *s, char const *set)
 {
 	size_t	trimmed_size;
 	char	*trimmed_str;
@@ -96,10 +87,7 @@ char	*ft_strtrim_free_1(
  * returning the heap-allocated result.
  * Free the second argument.
  */
-char	*ft_strtrim_free_2(
-	char const *s,
-	char const *set
-)
+char	*ft_strtrim_free_2(char const *s, char const *set)
 {
 	size_t	trimmed_size;
 	char	*trimmed_str;
@@ -124,10 +112,7 @@ char	*ft_strtrim_free_2(
  * returning the heap-allocated result.
  * Free both arguments.
  */
-char	*ft_strtrim_free_12(
-	char const *s,
-	char const *set
-)
+char	*ft_strtrim_free_12(char const *s, char const *set)
 {
 	size_t	trimmed_size;
 	char	*trimmed_str;

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 02:30:12 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:13:19 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -191,5 +191,13 @@ int				_cleanup_simulation(t_philo **philos, t_params *params,
 /* fork_logic.c */
 int				_pickup_forks(t_philo *philo);
 int				_putdown_forks(t_philo *philo);
+
+/* eat_sleep_think.c */
+int				_sleep(t_philo *philo);
+int				_think(t_philo *philo);
+int				_eat(t_philo *philo);
+
+/* routine.c */
+int				philos_not_finished(t_philo *philo);
 
 #endif /* philo.h */

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:06:15 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 01:48:15 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:54:30 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -59,10 +59,7 @@ static t_philo	*_init_philo(unsigned int id, t_params *params,
 	{
 		philo->left_fork = _new_fork(id);
 		if (philo->left_fork == NULL)
-		{
-			safe_free(philo);
-			return (NULL);
-		}
+			return (safe_free(philo), NULL);
 	}
 	philo->id = id;
 	philo->last_meal = LONG_MAX;
@@ -82,8 +79,6 @@ static void	_cleanup_philos_fork(t_philo **philos, t_fork *first_fork)
 		safe_free(first_fork);
 	}
 }
-
-#include <stdio.h>
 
 /* Helper to prepare the data structures used for spawning
  * the philosopher threads.

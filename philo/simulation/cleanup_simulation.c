@@ -6,9 +6,10 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 06:15:16 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/20 01:46:52 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:58:08 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/* ex: set ts=4 sw=4 ft=c et */
 
 #include "philo.h"
 
@@ -64,12 +65,8 @@ int	cleanup_philos(t_philo **philos)
  * The exit_status (default should be EXIT_SUCCESSS) will be returned
  * unless there is an error with pthread_mutex_destroy.
  */
-extern
-int	_cleanup_simulation(
-	t_philo **philos,
-	t_params *params,
-	pthread_t *philo_threads
-)
+int	_cleanup_simulation(t_philo **philos, t_params *params,
+	pthread_t *philo_threads)
 {
 	int	err;
 

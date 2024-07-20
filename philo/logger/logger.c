@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:49:55 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 00:08:08 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:18:12 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -19,8 +19,7 @@
 /* Returns a malloc'd, semicolon delimited string of
  * ANSI escape sequence attributes, specifically for color.
  */
-static
-char	*_build_color(enum e_ansi ansi)
+static char	*_build_color(enum e_ansi ansi)
 {
 	char	*color;
 
@@ -34,8 +33,7 @@ char	*_build_color(enum e_ansi ansi)
 /* Returns a malloc'd, semicolon delimited string of
  * ANSI escape sequence attributes.
  */
-static
-char	*_build_attrs(enum e_ansi ansi)
+static char	*_build_attrs(enum e_ansi ansi)
 {
 	char		*attrs;
 	char const	*ansi_code;
@@ -60,11 +58,7 @@ char	*_build_attrs(enum e_ansi ansi)
 
 /* Log a given msg to stdout, respecting the log level and color settings.
  */
-int	logger(
-	const char *msg,
-	enum e_ansi ansi,
-	enum e_log_lvl log_lvl
-)
+int	logger(const char *msg, enum e_ansi ansi, enum e_log_lvl log_lvl)
 {
 	int		ret;
 	char	*color;
@@ -92,11 +86,7 @@ int	logger(
 /* Log a given msg to stdout without a newline,
  * respecting the log level and color settings.
  */
-int	logger_nonl(
-	const char *msg,
-	enum e_ansi ansi,
-	enum e_log_lvl log_lvl
-)
+int	logger_nonl(const char *msg, enum e_ansi ansi, enum e_log_lvl log_lvl)
 {
 	int		ret;
 	char	*color;

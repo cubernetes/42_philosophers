@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 03:06:58 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 02:59:42 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:59:18 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -107,35 +107,27 @@ int	_pickup_forks(t_philo *philo)
  */
 int	_putdown_forks(t_philo *philo)
 {
+	pthread_mutex_t	*first_mtx;
+	pthread_mutex_t	*second_mtx;
+
 	if (philo == NULL)
 		return (EXIT_FAILURE);
+	first_mtx = &philo->right_fork->mutex;
+	second_mtx = &philo->left_fork->mutex;
 	if (philo->id % 2 == 1)
 	{
-		if (pthread_mutex_unlock(&philo->left_fork->mutex))
-		{
-			if (philo->left_fork == philo->right_fork)
-				return (EXIT_FAILURE);
-			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
-			return (EXIT_FAILURE);
-		}
-		if (philo->left_fork == philo->right_fork)
-			return (EXIT_SUCCESS);
-		if (pthread_mutex_unlock(&philo->right_fork->mutex))
-			return (EXIT_FAILURE);
+		first_mtx = &philo->left_fork->mutex;
+		second_mtx = &philo->right_fork->mutex;
 	}
-	else
+	if (pthread_mutex_unlock(first_mtx))
 	{
-		if (pthread_mutex_unlock(&philo->right_fork->mutex))
-		{
-			if (philo->left_fork == philo->right_fork)
-				return (EXIT_SUCCESS);
-			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
-			return (EXIT_FAILURE);
-		}
 		if (philo->left_fork == philo->right_fork)
 			return (EXIT_FAILURE);
-		if (pthread_mutex_unlock(&philo->left_fork->mutex))
-			return (EXIT_FAILURE);
+		return (pthread_mutex_unlock(second_mtx), EXIT_FAILURE);
 	}
+	if (philo->left_fork == philo->right_fork)
+		return (EXIT_SUCCESS);
+	if (pthread_mutex_unlock(second_mtx))
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

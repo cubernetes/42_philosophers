@@ -6,9 +6,10 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 05:31:33 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/19 23:32:03 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:58:27 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/* ex: set ts=4 sw=4 ft=c et */
 
 #include "utils.h"
 

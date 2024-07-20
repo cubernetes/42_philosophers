@@ -6,9 +6,10 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:00:00 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/19 23:31:46 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:58:16 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/* ex: set ts=4 sw=4 ft=c et */
 
 #ifndef UTILS_H
 # define UTILS_H	1

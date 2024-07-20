@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:53:56 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 03:41:20 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/20 20:00:50 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,11 +16,7 @@
 /* Concatenate two C-strings by writing into a pre-allocated buffer,
  * NUL-terminating the result.
  */
-size_t	ft_strlcat(
-	char *dst,
-	char const *src,
-	size_t size
-)
+size_t	ft_strlcat(char *dst, char const *src, size_t size)
 {
 	size_t	idx;
 	size_t	src_idx;

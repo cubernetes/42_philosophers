@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 19:35:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/18 18:59:44 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:00:56 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -18,11 +18,7 @@
  * size includes the NUL-terminator.
  * Always returns the length of src.
  */
-size_t	ft_strlcpy(
-	char *dst,
-	char const *src,
-	size_t size
-)
+size_t	ft_strlcpy(char *dst, char const *src, size_t size)
 {
 	size_t	len;
 
