@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:07:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 00:22:03 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 02:48:56 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -35,6 +35,17 @@ static int	_sleep(t_philo *philo)
 	return (EXIT_SUCCESS);
 }
 
+static int	_think(t_philo *philo)
+{
+	if (philo == NULL)
+		return (EXIT_FAILURE);
+	if (log_philo(PHILO_THINKING, philo) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (ft_msleep(philo->params->time_to_think) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 /* This is the "resource work" function, where a thread occupies ("holds")
  * the mutually exclusive resource (in this case, forks/chopsticks).
  * The logic in "pickup" and "putdown" is the important bit. This implementation
@@ -53,16 +64,15 @@ static int	_eat(t_philo *philo)
 {
 	if (philo == NULL)
 		return (EXIT_FAILURE);
-	if (log_philo(PHILO_THINKING, philo) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
 	if (_pickup_forks(philo) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (log_philo(PHILO_EATING, philo) == EXIT_FAILURE)
 		return (_putdown_forks(philo), EXIT_FAILURE);
-	if (pthread_mutex_lock(&philo->last_meal_mtx) != 0)
+	if (pthread_mutex_lock(&philo->meal_mtx) != 0)
 		return (_putdown_forks(philo), EXIT_FAILURE);
 	philo->last_meal = get_mtime();
-	if (pthread_mutex_unlock(&philo->last_meal_mtx) != 0
+	--philo->eat_credit;
+	if (pthread_mutex_unlock(&philo->meal_mtx) != 0
 		|| philo->last_meal == 0)
 		return (_putdown_forks(philo), EXIT_FAILURE);
 	if (ft_msleep(philo->params->time_to_eat) == EXIT_FAILURE)
@@ -70,6 +80,16 @@ static int	_eat(t_philo *philo)
 	if (_putdown_forks(philo) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+static int	_philos_not_finished(t_philo *philo)
+{
+	int	ret;
+
+	pthread_mutex_lock(&philo->params->finished_philos_mtx);
+	ret = philo->params->finished_philos > 0;
+	pthread_mutex_unlock(&philo->params->finished_philos_mtx);
+	return (ret);
 }
 
 /* Main philosopher routine: eat, think, sleep, repeat, die.
@@ -88,18 +108,30 @@ void	*routine(void *_philo)
 		return (NULL);
 	if (pthread_mutex_unlock(&philo->params->sync_mtx) != 0)
 		return (NULL);
-	if (pthread_mutex_lock(&philo->last_meal_mtx) != 0)
+	if (pthread_mutex_lock(&philo->meal_mtx) != 0)
 		return (NULL);
 	philo->last_meal = get_mtime();
-	if (pthread_mutex_unlock(&philo->last_meal_mtx) != 0
+	if (pthread_mutex_unlock(&philo->meal_mtx) != 0
 		|| philo->last_meal == 0)
 		return (NULL);
-	while (TRUE)
+	if (log_philo(PHILO_THINKING, philo) == EXIT_FAILURE)
+		return (NULL);
+	if (philo->id % 2)
+		ft_msleep(philo->params->time_to_eat / 2);
+	while (_philos_not_finished(philo))
 	{
 		if (_eat(philo) == EXIT_FAILURE)
 			return (NULL);
 		if (_sleep(philo) == EXIT_FAILURE)
 			return (NULL);
+		if (_think(philo) == EXIT_FAILURE)
+			return (NULL);
+		if (philo->eat_credit == 0)
+		{
+			pthread_mutex_lock(&philo->params->finished_philos_mtx);
+			--philo->params->finished_philos;
+			pthread_mutex_unlock(&philo->params->finished_philos_mtx);
+		}
 	}
 	return (philo);
 }

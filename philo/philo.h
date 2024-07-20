@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:47:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 00:20:21 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 02:30:12 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -43,6 +43,7 @@ to end the simulation (argument 5, 'ME')."
 # define PHILO_THINKING_MSG "is thinking"
 # define PHILO_EATING_MSG   "is eating"
 # define PHILO_FORK_MSG     "has taken a fork"
+# define PHILO_DEAD_MSG     "died"
 
 # define ERR_GETTIMEOFDAY 0
 
@@ -81,6 +82,7 @@ enum e_philo_log
 	PHILO_THINKING	= 1,
 	PHILO_EATING	= 2,
 	PHILO_FORK		= 3,
+	PHILO_DEAD		= 4,
 };
 
 /*********************************** structs **********************************/
@@ -90,13 +92,16 @@ typedef struct s_params
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				time_to_think;
 	int				min_eat;
 	time_t			start_time;
 	int				debug;
 	int				stop;
+	int				finished_philos;
 	pthread_mutex_t	log_mtx;
 	pthread_mutex_t	sync_mtx;
 	pthread_mutex_t	stop_mtx;
+	pthread_mutex_t	finished_philos_mtx;
 }	t_params;
 
 typedef struct s_fork
@@ -113,7 +118,8 @@ typedef struct s_philo
 	int				keep_going;
 	t_params		*params;
 	time_t			last_meal;
-	pthread_mutex_t	last_meal_mtx;
+	pthread_mutex_t	meal_mtx;
+	int				eat_credit;
 }	t_philo;
 
 typedef struct s_err
@@ -125,7 +131,7 @@ typedef struct s_err
 /********************************** prototypes ********************************/
 /* simulation */
 int				simulate(t_params *params);
-int				cleanup_philos(t_philo **philos, t_params *params);
+int				cleanup_philos(t_philo **philos);
 int				sim_has_ended(t_params *params);
 
 /* ft_time.c */

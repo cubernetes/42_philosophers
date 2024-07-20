@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 03:06:58 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 00:22:49 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 02:59:42 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -14,6 +14,18 @@
 #include "philo.h"
 
 #include <stdlib.h>
+
+static int	_single_philo(t_philo *philo)
+{
+	while (TRUE)
+	{
+		if (sim_has_ended(philo->params) != 0 || philo == NULL)
+			return (EXIT_SUCCESS);
+		if (ft_msleep(100) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
 
 static int	_pickup_right_fork_first(t_philo *philo)
 {
@@ -24,6 +36,8 @@ static int	_pickup_right_fork_first(t_philo *philo)
 		(void)pthread_mutex_unlock(&philo->right_fork->mutex);
 		return (EXIT_FAILURE);
 	}
+	if (philo->right_fork == philo->left_fork)
+		return (_single_philo(philo));
 	if (pthread_mutex_lock(&philo->left_fork->mutex))
 		return (EXIT_FAILURE);
 	if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
@@ -44,6 +58,8 @@ static int	_pickup_left_fork_first(t_philo *philo)
 		(void)pthread_mutex_unlock(&philo->left_fork->mutex);
 		return (EXIT_FAILURE);
 	}
+	if (philo->left_fork == philo->right_fork)
+		return (_single_philo(philo));
 	if (pthread_mutex_lock(&philo->right_fork->mutex))
 		return (EXIT_FAILURE);
 	if (log_philo(PHILO_FORK, philo) == EXIT_FAILURE)
@@ -97,9 +113,13 @@ int	_putdown_forks(t_philo *philo)
 	{
 		if (pthread_mutex_unlock(&philo->left_fork->mutex))
 		{
+			if (philo->left_fork == philo->right_fork)
+				return (EXIT_FAILURE);
 			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
 			return (EXIT_FAILURE);
 		}
+		if (philo->left_fork == philo->right_fork)
+			return (EXIT_SUCCESS);
 		if (pthread_mutex_unlock(&philo->right_fork->mutex))
 			return (EXIT_FAILURE);
 	}
@@ -107,9 +127,13 @@ int	_putdown_forks(t_philo *philo)
 	{
 		if (pthread_mutex_unlock(&philo->right_fork->mutex))
 		{
+			if (philo->left_fork == philo->right_fork)
+				return (EXIT_SUCCESS);
 			(void)pthread_mutex_unlock(&philo->left_fork->mutex);
 			return (EXIT_FAILURE);
 		}
+		if (philo->left_fork == philo->right_fork)
+			return (EXIT_FAILURE);
 		if (pthread_mutex_unlock(&philo->left_fork->mutex))
 			return (EXIT_FAILURE);
 	}

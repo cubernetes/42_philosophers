@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:06:15 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 00:09:55 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 01:48:15 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -15,6 +15,7 @@
 
 #include <stdlib.h>
 #include <pthread.h>
+#include <limits.h>
 
 /* Create a new fork on the heap, initializing its corresponding mutex.
  */
@@ -50,7 +51,7 @@ static t_philo	*_init_philo(unsigned int id, t_params *params,
 		return (NULL);
 	philo->params = params;
 	philo->right_fork = right_fork;
-	if (pthread_mutex_init(&philo->last_meal_mtx, NULL) != 0)
+	if (pthread_mutex_init(&philo->meal_mtx, NULL) != 0)
 		return (safe_free(philo), NULL);
 	if (id == (unsigned int)params->num_philos - 1)
 		philo->left_fork = first_fork;
@@ -64,6 +65,8 @@ static t_philo	*_init_philo(unsigned int id, t_params *params,
 		}
 	}
 	philo->id = id;
+	philo->last_meal = LONG_MAX;
+	philo->eat_credit = params->min_eat;
 	return (philo);
 }
 
@@ -80,6 +83,8 @@ static void	_cleanup_philos_fork(t_philo **philos, t_fork *first_fork)
 	}
 }
 
+#include <stdio.h>
+
 /* Helper to prepare the data structures used for spawning
  * the philosopher threads.
  */
@@ -88,10 +93,10 @@ static t_philo	**_prepare_philo_spawning(t_params *params, t_fork **first_fork,
 {
 	t_philo			**philos;
 
-	philos = malloc(sizeof(*philos) * (size_t)params->num_philos);
+	philos = malloc(sizeof(*philos) * ((size_t)params->num_philos + 1));
 	if (philos == NULL)
 		return (NULL);
-	ft_bzero(philos, sizeof(*philos) * (size_t)params->num_philos);
+	ft_bzero(philos, sizeof(*philos) * ((size_t)params->num_philos + 1));
 	*first_fork = _new_fork((unsigned int)params->num_philos - 1);
 	if (*first_fork == NULL)
 	{
@@ -137,13 +142,13 @@ t_philo	**_spawn_philos(pthread_t *philo_threads, t_params *params)
 	while (TRUE)
 	{
 		if (pthread_create(philo_threads + idx, NULL, routine, philo) != 0)
-			return (cleanup_philos(philos, params), NULL);
+			return (cleanup_philos(philos), NULL);
 		++idx;
 		if (idx >= (unsigned int)params->num_philos)
 			break ;
 		philo = _init_philo(idx, params, philo->left_fork, first_fork);
 		if (philo == NULL)
-			return (cleanup_philos(philos, params), NULL);
+			return (cleanup_philos(philos), NULL);
 		philos[idx] = philo;
 	}
 	return (philos);

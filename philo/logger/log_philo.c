@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:48:02 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 00:07:28 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 02:04:12 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -45,6 +45,8 @@ static char	*_get_philo_log_msg(enum e_philo_log log)
 		return (PHILO_EATING_MSG);
 	else if (log == PHILO_FORK)
 		return (PHILO_FORK_MSG);
+	else if (log == PHILO_DEAD)
+		return (PHILO_DEAD_MSG);
 	else
 		return ("has done something extraordinary...");
 }

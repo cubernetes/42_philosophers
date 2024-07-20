@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:46:07 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 23:54:24 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 02:32:57 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -54,13 +54,20 @@ static int	_init_mutexes(t_params *params)
 		return (EXIT_FAILURE);
 	if (pthread_mutex_init(&params->sync_mtx, NULL))
 	{
-		pthread_mutex_destroy(&params->log_mtx);
+		(void)pthread_mutex_destroy(&params->log_mtx);
 		return (EXIT_FAILURE);
 	}
 	if (pthread_mutex_init(&params->stop_mtx, NULL))
 	{
-		pthread_mutex_destroy(&params->log_mtx);
-		pthread_mutex_destroy(&params->sync_mtx);
+		(void)pthread_mutex_destroy(&params->log_mtx);
+		(void)pthread_mutex_destroy(&params->sync_mtx);
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&params->finished_philos_mtx, NULL))
+	{
+		(void)pthread_mutex_init(&params->stop_mtx, NULL);
+		(void)pthread_mutex_destroy(&params->log_mtx);
+		(void)pthread_mutex_destroy(&params->sync_mtx);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -78,5 +85,10 @@ int	init(int argc, char *argv[], char *envp[], t_params *params)
 		|| _init_mutexes(params))
 		return (EXIT_FAILURE);
 	params->stop = FALSE;
+	params->finished_philos = params->num_philos;
+	params->time_to_think = 0;
+	if (params->time_to_eat * 2 > params->time_to_sleep && params->num_philos & 1
+		&& params->num_philos > 1)
+		params->time_to_think = params->time_to_eat * 2 - params->time_to_sleep;
 	return (EXIT_SUCCESS);
 }
