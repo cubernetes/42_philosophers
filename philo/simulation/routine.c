@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 06:07:17 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 19:23:48 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:09:47 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -16,17 +16,17 @@
 #include <limits.h>
 #include <stdlib.h>
 
-int	philos_not_finished(t_philo *philo)
+int	philos_not_finished(t_params *params)
 {
 	int	ret;
 
-	if (pthread_mutex_lock(&philo->params->finished_philos_mtx))
+	if (pthread_mutex_lock(&params->finished_philos_mtx))
 	{
-		(void)pthread_mutex_unlock(&philo->params->finished_philos_mtx);
+		(void)pthread_mutex_unlock(&params->finished_philos_mtx);
 		return (-1);
 	}
-	ret = philo->params->finished_philos > 0;
-	if (pthread_mutex_unlock(&philo->params->finished_philos_mtx))
+	ret = params->finished_philos > 0;
+	if (pthread_mutex_unlock(&params->finished_philos_mtx))
 		return (-1);
 	return (ret);
 }
@@ -66,7 +66,7 @@ static int	_retire_philo(t_philo *philo)
 	return (EXIT_SUCCESS);
 }
 
-static int	_decrement_eat_credit(t_philo *philo)
+static int	_decrement_finished_philos(t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->params->finished_philos_mtx))
 	{
@@ -93,17 +93,17 @@ void	*routine(void *_philo)
 		return (NULL);
 	if (philo->id % 2)
 		ft_msleep(philo->params->time_to_eat / 2);
-	while (philos_not_finished(philo))
+	while (philos_not_finished(philo->params))
 	{
 		if (_eat(philo) == EXIT_FAILURE)
 			return (NULL);
+		if (philo->eat_credit == 0)
+			if (_decrement_finished_philos(philo))
+				return (NULL);
 		if (_sleep(philo) == EXIT_FAILURE)
 			return (NULL);
 		if (_think(philo) == EXIT_FAILURE)
 			return (NULL);
-		if (philo->eat_credit == 0)
-			if (_decrement_eat_credit(philo))
-				return (NULL);
 	}
 	if (_retire_philo(philo))
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 23:05:54 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/19 23:54:16 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 22:05:15 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -24,7 +24,7 @@ int	_parse_num_philos_arg(char const *arg, t_params *params)
 	if (arg == NULL || params == NULL)
 		return (EXIT_FAILURE);
 	params->num_philos = ft_atoi_status(arg, &status);
-	if (is_acceptable_aton_status(status) && params->num_philos > 0)
+	if (is_acceptable_aton_status(status) && params->num_philos >= 0)
 		return (EXIT_SUCCESS);
 	(void)log_fatal(ERR_MSG_WRONG_ARG_NUM_PHILOS);
 	return (EXIT_FAILURE);
@@ -39,7 +39,7 @@ int	_parse_time_to_die_arg(char const *arg, t_params *params)
 	if (arg == NULL || params == NULL)
 		return (EXIT_FAILURE);
 	params->time_to_die = ft_atoi_status(arg, &status);
-	if (is_acceptable_aton_status(status) && params->time_to_die > 0)
+	if (is_acceptable_aton_status(status) && params->time_to_die >= 0)
 		return (EXIT_SUCCESS);
 	(void)log_fatal(ERR_MSG_WRONG_ARG_TIME_TO_DIE);
 	return (EXIT_FAILURE);
@@ -54,7 +54,7 @@ int	_parse_time_to_eat_arg(char const *arg, t_params *params)
 	if (arg == NULL || params == NULL)
 		return (EXIT_FAILURE);
 	params->time_to_eat = ft_atoi_status(arg, &status);
-	if (is_acceptable_aton_status(status) && params->time_to_eat > 0)
+	if (is_acceptable_aton_status(status) && params->time_to_eat >= 0)
 		return (EXIT_SUCCESS);
 	(void)log_fatal(ERR_MSG_WRONG_ARG_TIME_TO_EAT);
 	return (EXIT_FAILURE);
@@ -69,7 +69,7 @@ int	_parse_time_to_sleep_arg(char const *arg, t_params *params)
 	if (arg == NULL || params == NULL)
 		return (EXIT_FAILURE);
 	params->time_to_sleep = ft_atoi_status(arg, &status);
-	if (is_acceptable_aton_status(status) && params->time_to_sleep > 0)
+	if (is_acceptable_aton_status(status) && params->time_to_sleep >= 0)
 		return (EXIT_SUCCESS);
 	(void)log_fatal(ERR_MSG_WRONG_ARG_TIME_TO_SLEEP);
 	return (EXIT_FAILURE);

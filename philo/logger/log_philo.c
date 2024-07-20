@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:48:02 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 02:04:12 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 22:04:14 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -103,7 +103,7 @@ int	log_philo(enum e_philo_log log, t_philo *philo)
 	time_t		now;
 	enum e_ansi	log_lvl;
 
-	if (sim_has_ended(philo->params) != 0 || philo == NULL)
+	if (sim_has_ended(philo->params) || !philos_not_finished(philo->params))
 		return (EXIT_FAILURE);
 	log_lvl = NO_CLR;
 	if (philo->params->debug)

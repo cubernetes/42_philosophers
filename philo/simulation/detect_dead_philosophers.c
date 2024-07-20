@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 02:41:02 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/20 19:58:06 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:03:45 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -98,7 +98,7 @@ static int	_check_all_philosophers(t_params *params, t_philo **philos)
 			else
 				return (EXIT_SUCCESS);
 		}
-		else if (philos_not_finished(philos[idx]) == FALSE)
+		else if (philos_not_finished(params) == FALSE)
 			return (EXIT_SUCCESS);
 		++idx;
 	}

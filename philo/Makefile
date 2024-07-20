@@ -6,7 +6,7 @@
 #    By: tosuman <timo42@proton.me>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/15 20:33:50 by tosuman           #+#    #+#              #
-#    Updated: 2024/07/20 19:55:31 by tosuman          ###   ########.fr        #
+#    Updated: 2024/07/20 22:20:23 by tischmid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # ex: set ts=4 sw=4 ft=make noet #
@@ -26,7 +26,7 @@ CFLAGS := -O2 -Wall -Wextra -Werror\
 		  -pthread
 CPPFLAGS := -I. -Iutils -MMD
 LDFLAGS :=
-LDLIBS := -lpthread
+LDLIBS := -pthread
 ifeq ($(DEBUG), 1)
 	CFLAGS += -ggdb3 -O0
 	LDFLAGS += -ggdb3 -O0

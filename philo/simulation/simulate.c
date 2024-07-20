@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 19:53:34 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:04:41 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -40,7 +40,8 @@ static int	_wait_for_philos(pthread_t *philo_threads, t_params *params)
 	while (idx < params->num_philos)
 	{
 		err |= pthread_join(philo_threads[idx], &ret) != 0;
-		err |= ret == NULL && params->stop == FALSE;
+		err |= ret == NULL && params->stop == FALSE
+			&& philos_not_finished(params);
 		++idx;
 	}
 	if (err)
