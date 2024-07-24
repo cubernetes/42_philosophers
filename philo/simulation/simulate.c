@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:32:26 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/20 22:04:41 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/07/20 23:57:45 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ex: set ts=4 sw=4 ft=c et */
@@ -114,7 +114,7 @@ static int	_prepare_simulation(t_params *params, pthread_t **threads)
  * - Lock the synchronization mutex
  * - Spawn philosopher threads (which wait for the sync-mtx to be unlocked)
  * - Unlock the synchronization mutex
- * - Wait for philosopher threads to finish
+ * - Wait (and check if anyone died) for philosopher threads to finish
  * - Cleanup everything (also in case of error in between)
  */
 int	simulate(t_params *params)
